@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Sticky Rice (vgn)",
+    "station": "Mongolian Grill",
+    "commons_code": "carrillo",
+    "commons_name": "Carrillo",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Beef Chow Mein",
+    "station": "Mongolian Grill",
+    "commons_code": "carrillo",
+    "commons_name": "Carrillo",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Roast Pork Loin",
+    "station": "Euro",
+    "commons_code": "carrillo",
+    "commons_name": "Carrillo",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Spicy Black Bean Soup (vgn)",
+    "station": "Blue Plate Special",
+    "commons_code": "de-la-guerra",
+    "commons_name": "De La Guerra",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Chicken Chile Verde Tostada",
+    "station": "Taqueria (East Side)",
+    "commons_code": "de-la-guerra",
+    "commons_name": "De La Guerra",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Baked Sweet Potato (vgn)",
+    "station": "Greens & Grains",
+    "commons_code": "portola",
+    "commons_name": "Portola",
+    "meal_code": "dinner"
+  },
+  {
+    "name": "Tomato Basil Pizza on White (v)",
+    "station": "The Brick",
+    "commons_code": "portola",
+    "commons_name": "Portola",
+    "meal_code": "dinner"
+  }
+]

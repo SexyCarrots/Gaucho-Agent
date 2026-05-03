@@ -1,0 +1,1 @@
+"""SQLModel table models."""

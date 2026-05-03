@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gaucho upcoming *)",
+      "Bash(gaucho dining *)",
+      "Bash(gaucho plan *)"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Canvas LMS//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:event-assignment-1001@canvas.ucsb.edu
+SUMMARY:Homework 3 [CMPSC 291A S26]
+DESCRIPTION:Submit your solution to the dynamic programming problems.\nSee the course website for details.
+URL:https://ucsb.instructure.com/courses/12345/assignments/1001
+DTSTART:20260508T235900Z
+DTEND:20260508T235900Z
+END:VEVENT
+BEGIN:VEVENT
+UID:event-assignment-1002@canvas.ucsb.edu
+SUMMARY:Midterm Exam Study Guide [CMPSC 130A S26]
+DESCRIPTION:Review chapters 4-8 before the midterm.
+URL:https://ucsb.instructure.com/courses/12346/assignments/1002
+DTSTART:20260510T180000Z
+DTEND:20260510T190000Z
+END:VEVENT
+BEGIN:VEVENT
+UID:event-class-2001@canvas.ucsb.edu
+SUMMARY:Lecture: Algorithms and Complexity [CMPSC 291A S26]
+DESCRIPTION:Weekly lecture session. Room: Phelps 1448.
+URL:https://ucsb.instructure.com/courses/12345/calendar_events/2001
+DTSTART:20260506T160000Z
+DTEND:20260506T171500Z
+LOCATION:Phelps 1448
+END:VEVENT
+BEGIN:VEVENT
+UID:event-allday-3001@canvas.ucsb.edu
+SUMMARY:No Classes – Memorial Day
+DESCRIPTION:University holiday – no classes held.
+DTSTART;VALUE=DATE:20260525
+DTEND;VALUE=DATE:20260526
+END:VEVENT
+BEGIN:VEVENT
+UID:event-assignment-1003@canvas.ucsb.edu
+SUMMARY:Final Project Proposal [CMPSC 291A S26]
+DESCRIPTION:<p>Submit a 2-page project proposal as a PDF to Gradescope.</p>
+URL:https://ucsb.instructure.com/courses/12345/assignments/1003
+DTSTART:20260515T235900Z
+DTEND:20260515T235900Z
+END:VEVENT
+END:VCALENDAR

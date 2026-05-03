@@ -138,7 +138,7 @@ Fields:
 - updated_at
 
 ### Event
-Generic unified event table for assignments, campus dates, CLAS sessions, dining hours if useful.
+Generic unified event table for assignments, campus dates, campus events, dining hours if useful.
 Fields:
 - id
 - source_kind
@@ -245,7 +245,6 @@ File: `clients/ucsb_api.py`
   - `get_meal_plan_rates()`
   - `get_academic_quarter_calendar()`
   - `get_events()`
-  - `get_clas_schedules()`
   - `get_curriculums()`
   - `get_department_chairs()`
   - `get_student_record_code_lookups()`
@@ -288,7 +287,6 @@ File: `services/sync_academics.py`
 ### Behavior
 - fetch quarter calendar
 - fetch campus events
-- fetch CLAS schedules
 - optionally fetch curriculums and department chairs
 - normalize important dates/events into `Event`
 
@@ -327,7 +325,6 @@ Returns:
 - today's timed events
 - all-day deadlines
 - campus dates
-- optional CLAS sessions
 
 ## Tool 3: Weekly workload
 ```python

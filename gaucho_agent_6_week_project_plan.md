@@ -16,7 +16,6 @@ The baseline intentionally avoids protected student-record APIs and full Canvas 
   - Academics - Curriculums
   - Academics - Department Chairs
   - Academics - Events
-  - Academics - CLAS Schedules
   - Academics - Academic Quarter Calendar
   - Students - Student Record Code Lookups
 
@@ -111,7 +110,6 @@ Local-first app:
   - meal plan rates
   - quarter calendar
   - events
-  - CLAS schedules
 - normalized local tables
 
 ### Tasks
@@ -128,7 +126,6 @@ Local-first app:
   - what dining commons are open?
   - what’s on the menu today?
   - what academic deadlines or dates are coming up?
-  - what CLAS sessions are listed?
 
 ---
 

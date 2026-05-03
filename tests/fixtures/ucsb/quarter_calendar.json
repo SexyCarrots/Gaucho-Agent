@@ -1,0 +1,26 @@
+[
+  {
+    "quarter": "S26",
+    "quarterYear": "2026",
+    "firstDayOfClasses": "2026-03-30",
+    "lastDayOfClasses": "2026-06-05",
+    "firstDayOfFinals": "2026-06-08",
+    "lastDayOfFinals": "2026-06-12"
+  },
+  {
+    "quarter": "M26",
+    "quarterYear": "2026",
+    "firstDayOfClasses": "2026-06-22",
+    "lastDayOfClasses": "2026-08-28",
+    "firstDayOfFinals": "2026-08-31",
+    "lastDayOfFinals": "2026-09-04"
+  },
+  {
+    "quarter": "F26",
+    "quarterYear": "2026",
+    "firstDayOfClasses": "2026-09-24",
+    "lastDayOfClasses": "2026-12-04",
+    "firstDayOfFinals": "2026-12-07",
+    "lastDayOfFinals": "2026-12-11"
+  }
+]
