@@ -7,6 +7,12 @@ $ gaucho chat
 You: what's due this week?
 Assistant: According to your Canvas calendar feed, you have 3 upcoming deadlines...
 
+You: is the library busy right now?
+Assistant: The UCSB Library has 4 open sections. 2nd Ocean is moderately busy (42%), Grad Studies is quiet (18%)...
+
+You: how crowded is the gym?
+Assistant: The Main Gym Courts are at 31% capacity (62/200). Pavilion Courts are at 55%...
+
 You: plan my day
 Assistant: Here's a suggested plan for today based on your deadlines and dining hours...
 ```
@@ -14,7 +20,8 @@ Assistant: Here's a suggested plan for today based on your deadlines and dining 
 ## What it does
 
 - Pulls your Canvas assignment deadlines from your private `.ics` feed URL
-- Fetches live UCSB data: dining commons status, menus, academic quarter calendar, campus events
+- Fetches live UCSB data: dining commons status and today's menus, academic quarter calendar, campus events (next 7 days)
+- Shows real-time library busyness (Waitz, refreshes every ~3 min) and gym occupancy (UCSB Recreation) — no sync needed, fetched live on each question
 - Stores everything in a local SQLite database — no cloud, no accounts
 - Exposes a set of tools the LLM calls to answer grounded questions (no hallucination from thin air)
 - Works with OpenAI or Anthropic models using your own API key
@@ -128,6 +135,8 @@ Example questions:
 - `what's on the menu at De La Guerra tonight?`
 - `when does this quarter end?`
 - `summarize my workload for the next 7 days`
+- `is the library busy right now?`
+- `how crowded is the gym?`
 
 Type `exit` or `quit` to leave the chat.
 
@@ -183,20 +192,25 @@ All configuration lives in `.env`:
 
 ---
 
-## UCSB APIs used
+## Data sources
 
-The following UCSB API endpoints are integrated:
+### UCSB Developer API (`api.ucsb.edu`) — requires API key
 
 | API | Used for |
 |---|---|
-| Dining - Dining Commons | Commons list and open/closed status |
-| Dining - Dining Menu | Daily menus by commons |
-| Dining - Meal Plan Rates | Meal plan pricing |
-| Academics - Academic Quarter Calendar | Quarter start/end dates, finals |
-| Academics - Events | Campus events |
-| Academics - Curriculums | Course curriculum data |
-| Academics - Department Chairs | Department contact info |
-| Students - Student Record Code Lookups | Academic code lookups |
+| Dining - Dining Commons | Commons list |
+| Dining - Dining Menu | Open/closed status and today's menus |
+| Academics - Academic Quarter Calendar | Quarter start/end dates, finals, pass dates |
+| Academics - Events (Localist) | Campus events (7-day window) |
+
+### Live campus data — no API key required
+
+| Source | Used for |
+|---|---|
+| [Waitz](https://waitz.io/live/ucsb) | Real-time UCSB Library busyness (refreshes every ~3 min) |
+| [UCSB Recreation / GoBoard](https://recreation.ucsb.edu/facilities/livecount) | Real-time gym occupancy by facility area |
+
+These two sources are fetched live on each tool call — they are not synced to the database.
 
 ---
 
@@ -230,7 +244,7 @@ pip install -e ".[dev]"
 pytest tests/
 ```
 
-All 35 tests run against local fixtures — no credentials or network needed.
+All 41 tests run against local fixtures — no credentials or network needed.
 
 ---
 
@@ -249,3 +263,5 @@ All 35 tests run against local fixtures — no credentials or network needed.
 - UCSB APIs that are still pending approval (Courses, Schedules, Rosters, Student Records) are not integrated in this version.
 - ICS feed freshness depends on how often Canvas exports updates — typically within a few minutes of instructor changes.
 - The deterministic planner is heuristic-based; it does not know your actual work pace or preferences.
+- Dining sync fetches today's menu only; campus events are capped at the next 7 days to keep the database small.
+- Library and gym busyness data requires a live network call at query time; it will fail gracefully if either service is unreachable.

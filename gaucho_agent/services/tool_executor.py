@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 import json
 from typing import Any
 
@@ -12,6 +13,7 @@ from gaucho_agent.tools import schedule as t_schedule
 from gaucho_agent.tools import dining as t_dining
 from gaucho_agent.tools import academics as t_academics
 from gaucho_agent.tools import planning as t_planning
+from gaucho_agent.tools import campus as t_campus
 
 # ---------------------------------------------------------------------------
 # Tool JSON schemas (OpenAI function-calling format)
@@ -139,6 +141,30 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_library_busyness",
+            "description": (
+                "Get real-time busyness for each UCSB Library section (Grad Studies, "
+                "2nd Ocean, 2nd Mountain, 8th Floor, etc.). "
+                "busyness is 0-100 percent of capacity. Data refreshes every ~3 minutes."
+            ),
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_gym_busyness",
+            "description": (
+                "Get real-time occupancy for UCSB Recreation facilities "
+                "(Racquetball Courts, Galleria, Main Gym Courts, Pavilion Courts, etc.). "
+                "percent is current occupancy as a percentage of capacity."
+            ),
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
 ]
 
 # ---------------------------------------------------------------------------
@@ -153,6 +179,8 @@ _DISPATCH: dict[str, Any] = {
     "get_dining_menu": t_dining.get_dining_menu,
     "get_upcoming_academic_dates": t_academics.get_upcoming_academic_dates,
     "make_daily_plan": t_planning.make_daily_plan,
+    "get_library_busyness": t_campus.get_library_busyness,
+    "get_gym_busyness": t_campus.get_gym_busyness,
 }
 
 
@@ -162,12 +190,13 @@ def execute_tool(name: str, arguments: dict[str, Any], session: Session) -> dict
     if fn is None:
         return {"error": f"Unknown tool: {name}"}
 
-    # Inject session into kwargs
-    kwargs: dict[str, Any] = {**arguments, "session": session}
+    # Only inject session if the function accepts it
+    kwargs: dict[str, Any] = dict(arguments)
+    if "session" in inspect.signature(fn).parameters:
+        kwargs["session"] = session
     try:
         result = fn(**kwargs)
-    except TypeError as exc:
-        # In case of signature mismatch – surface a useful error
+    except Exception as exc:
         return {"error": str(exc)}
 
     if isinstance(result, dict):

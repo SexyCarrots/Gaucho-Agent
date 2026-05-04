@@ -2,6 +2,55 @@
 
 ---
 
+## 2026-05-04 — Dining fix, sync reduction, live campus tools
+
+### Status
+Four bugs fixed, two new tools added. All 41 tests passing.
+
+### What changed
+
+#### Dining open/closed fix
+The previous sync used `/dining/commons/v1` (a static commons list) to determine open/closed status, so all four halls always appeared open regardless of the day. The UCSB Dining API uses a three-level path hierarchy:
+
+- `/dining/menu/v1/{date}` — returns only commons codes that are **open** that day (absence = closed)
+- `/dining/menu/v1/{date}/{commons_code}` — returns meal periods for that commons
+- `/dining/menu/v1/{date}/{commons_code}/{meal_code}` — returns individual menu items
+
+`services/sync_dining.py` was rewritten to probe the first level to establish open/closed status, then walk down the hierarchy to fetch today's menu. `DiningCommonsStatus` now stores `is_open_today` (bool) and `status_date` (date) so the tool can report staleness.
+
+Result: Ortega correctly shows Closed on Saturday; Carrillo and De La Guerra show their actual per-day status.
+
+#### Sync record count reduction (3,377 → 284)
+Two separate issues caused the bloat:
+
+1. **Quarter calendar**: `/academics/quartercalendar/v1/quarters` returns all 383 quarters from 1930 to 2034. With 13 milestones per quarter that was ~4,979 potential rows. Added `_quarter_year()` helper and filtered to `current_year+` only (≤ ~13 quarters, ≤ ~169 rows).
+
+2. **Campus events**: The Localist API accepts `start_date`/`end_date` (not `start`/`end`). Wrong param names meant all pages were returned (~11 pages, ~hundreds of events). Fixed param names and added a 7-day window via `window_start`/`window_end`. Stale event rows are deleted before each sync.
+
+Combined result: typical sync now upserts ~284 records instead of 3,377.
+
+#### Live library and gym busyness tools
+Two new tools added — both fetch live data at query time with no database involvement:
+
+- **`get_library_busyness`** — calls `waitz.io/live/ucsb` (public, no auth). Returns open/closed sections with busyness 0–100 (percent of capacity). Data refreshes every ~3 minutes.
+- **`get_gym_busyness`** — calls the GoBoard Azure API used by `recreation.ucsb.edu/facilities/livecount`. Returns occupancy grouped by facility area. The API's `PercetageCapacity` field is broken (always 0); actual percent is computed from `LastCount / TotalCapacity`.
+
+New files: `gaucho_agent/clients/campus_live.py` (async fetch functions), `gaucho_agent/tools/campus.py` (sync wrappers using `asyncio.run()`).
+
+The tool dispatcher in `services/tool_executor.py` now uses `inspect.signature(fn).parameters` to conditionally inject the DB `session` — live tools like these don't accept a session, so it's omitted automatically.
+
+#### Retry fix (401 no longer retried)
+`tenacity` retry decorator was using `retry_if_exception_type(httpx.HTTPStatusError)` which retried all HTTP errors including 401s. Changed to `retry_if_exception(_is_retryable)` where `_is_retryable` returns True only for 5xx status codes and network-level errors (timeouts, connect errors). Academic endpoints pending API approval now fail immediately instead of retrying 3×.
+
+### Verification
+- `gaucho sync dining` → Ortega marked closed on Saturday, Carrillo open with brunch/dinner menu
+- `gaucho sync all` → 284 records upserted (down from 3,377)
+- Chat: "is the library busy?" → returns per-section busyness from Waitz
+- Chat: "how crowded is the gym?" → returns per-facility occupancy from GoBoard
+- Full test suite: 41/41 passing
+
+---
+
 ## 2026-05-02 — UCSB academic quarter calendar fixes
 
 ### Status

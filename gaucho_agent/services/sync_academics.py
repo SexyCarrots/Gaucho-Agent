@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from zoneinfo import ZoneInfo
 
 import httpx
-from sqlmodel import Session, select
+from sqlmodel import Session, delete, select
 
 from gaucho_agent.clients.ucsb_api import UCSBClient
 from gaucho_agent.config import settings
@@ -47,6 +47,18 @@ def _is_all_day(value: str | None) -> bool:
     except ValueError:
         return len(value) <= 10
     return dt.hour == 0 and dt.minute == 0 and dt.second == 0
+
+
+def _quarter_year(q: dict[str, Any]) -> int:
+    """Extract the start year of a quarter from its first date field."""
+    for field in ("firstDayOfClasses", "firstDayOfQuarter", "firstDayOfFinals"):
+        val = q.get(field)
+        if val and len(val) >= 4:
+            try:
+                return int(val[:4])
+            except ValueError:
+                pass
+    return 0
 
 
 def _quarter_display_name(q: dict[str, Any]) -> str:
@@ -210,9 +222,14 @@ async def sync_academics(session: Session) -> SyncRun:
     upserted = 0
     skipped: list[str] = []
 
-    # --- Quarter Calendar ---
+    # --- Quarter Calendar (current year and next 2 years only) ---
     try:
-        quarters = await client.get_academic_quarter_calendar()
+        all_quarters = await client.get_academic_quarter_calendar()
+        current_year = datetime.utcnow().year
+        quarters = [
+            q for q in all_quarters
+            if _quarter_year(q) >= current_year
+        ]
         for q in quarters:
             for event in _quarter_milestones(q):
                 _upsert_event(
@@ -237,9 +254,22 @@ async def sync_academics(session: Session) -> SyncRun:
         logger.warning("Quarter calendar skipped: %s", exc)
         skipped.append(f"quarter_calendar ({exc!r})")
 
-    # --- Campus Events ---
+    # --- Campus Events (next 7 days only) ---
     try:
-        events = await client.get_events()
+        now_utc = datetime.utcnow()
+        window_start = now_utc.strftime("%Y-%m-%d")
+        window_end = (now_utc + timedelta(days=7)).strftime("%Y-%m-%d")
+
+        # Remove stale campus events outside the new window
+        session.exec(
+            delete(Event).where(
+                Event.source_kind == "ucsb_api",
+                Event.category == "event",
+            )
+        )
+        session.commit()
+
+        events = await client.get_events(start_date=window_start, end_date=window_end)
         for e in events:
             eid = _campus_event_external_id(e)
             _upsert_event(

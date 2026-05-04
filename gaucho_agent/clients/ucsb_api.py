@@ -111,13 +111,25 @@ class UCSBClient:
             if str(item.get("quarter") or item.get("quarterCode") or "").lower() == quarter_code
         ]
 
-    async def get_events(self) -> list:
+    async def get_events(
+        self,
+        start_date: str | None = None,
+        end_date: str | None = None,
+    ) -> list:
+        """Fetch Localist campus events, optionally bounded by start/end (YYYY-MM-DD)."""
         events: list[dict[str, Any]] = []
         page = 1
         total_pages = 1
+        base_params: dict[str, Any] = {}
+        if start_date:
+            base_params["start_date"] = start_date
+        if end_date:
+            base_params["end_date"] = end_date
 
         while page <= total_pages:
-            result = await self.get_public_url(UCSB_EVENTS_URL, params={"page": page})
+            result = await self.get_public_url(
+                UCSB_EVENTS_URL, params={**base_params, "page": page}
+            )
             if not isinstance(result, dict):
                 return result if isinstance(result, list) else events
 
