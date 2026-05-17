@@ -256,8 +256,9 @@ LongMemEval-S and synthetic probes). Memory is gated behind `USE_MEMORY=1`
 and does not affect the assistant by default.
 
 - Design: [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)
-- **How to reproduce every result and figure (for the report &
-  presentation): [EXPERIMENTS.md](EXPERIMENTS.md)**
+- **How to reproduce every result and figure: [EXPERIMENTS.md](EXPERIMENTS.md)**
+- Final report draft: [REPORT.md](REPORT.md)
+- Presentation deck: [PRESENTATION.md](PRESENTATION.md)
 
 Quick start:
 

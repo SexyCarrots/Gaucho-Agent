@@ -1,7 +1,7 @@
 system,persona,n,accuracy,clean_baseline,robustness_gap
-ours,contradictory,20,0.9,0.75,0.15
-ours,distractor,20,0.7,0.75,-0.05
-ours,paraphraser,20,0.75,0.75,0.0
-naive_rag,contradictory,20,0.9,0.8,0.1
-naive_rag,distractor,20,0.6,0.8,-0.2
-naive_rag,paraphraser,20,0.8,0.8,0.0
+ours,contradictory,30,0.8333,0.6333,0.2
+ours,distractor,30,0.6,0.6333,-0.0333
+ours,paraphraser,30,0.6333,0.6333,0.0
+naive_rag,contradictory,30,0.9,0.7667,0.1333
+naive_rag,distractor,30,0.6,0.7667,-0.1667
+naive_rag,paraphraser,30,0.7667,0.7667,0.0

@@ -65,10 +65,22 @@ so the whole pipeline is reproducible with no API key or network.
 - `data/longmemeval_s/` (265 MB) is gitignored; `results/*.csv`,
   `figures/*.pdf`, and `data/synthetic_probes.json` are checked in.
 
+### Week 2 completed (Days 8–14)
+- All five experiments + ablations + LongMemEval-S re-run offline at
+  plan-spec sizes; five figures regenerated (`figures/*.pdf`).
+- Day 13 final report draft: [REPORT.md](REPORT.md) — cites the actual
+  offline CSV numbers, states the offline-proxy threat to validity up
+  front, and frames the two flat axes as an instrument finding.
+- Day 14 presentation deck: [PRESENTATION.md](PRESENTATION.md) —
+  10 slides / 6 min with speaker notes.
+- Strongest offline findings: EXP-1 Memory ROI (ours 2–3× naive at ⅓ the
+  tokens); EXP-4 process profile (store-F1 0.44 vs 0.23,
+  override-precision 0.67 vs 0.00, storage-rate 0.38 vs 1.00).
+
 ### Remaining (gated on external resources, not code)
-- Full-scale runs with a live OpenAI key + the ~12M-token budget.
+- Full-scale real-mode runs with a live OpenAI key + the ~12M-token
+  budget (single flag: drop `--offline`; harness + caching ready).
 - Validate the gpt-4o-mini judge vs gpt-4o on ~50 samples (risk §9).
-- Final report assembling the five figures (Day 13).
 
 ---
 

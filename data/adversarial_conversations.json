@@ -760,6 +760,404 @@
     "persona": "contradictory"
   },
   {
+    "id": "probe_0020",
+    "category": "single_session",
+    "user_id": "u0020",
+    "sessions": [
+      {
+        "session_id": "u0020-s0",
+        "turns": [
+          "The bus was late again today.",
+          "My favorite study spot has good lighting.",
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I prefer window seats in lecture halls.",
+          "I watched a good movie last night."
+        ]
+      },
+      {
+        "session_id": "u0020-flip",
+        "turns": [
+          "My dorm faces east.",
+          "I might get a new laptop sticker.",
+          "Actually, I lied earlier \u2014 disregard that. I have lab every Tuesday and Thursday at 2pm is no longer true."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0021",
+    "category": "multi_session",
+    "user_id": "u0021",
+    "sessions": [
+      {
+        "session_id": "u0021-s0",
+        "turns": [
+          "The weather has been nice this week.",
+          "I live in the San Nicolas residence hall",
+          "I bought a new backpack recently.",
+          "My favorite study spot has good lighting.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0021-s1",
+        "turns": [
+          "The weather has been nice this week.",
+          "I watched a good movie last night.",
+          "I bought a new backpack recently.",
+          "I prefer window seats in lecture halls.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0021-flip",
+        "turns": [
+          "My dorm faces east.",
+          "I had cereal for breakfast.",
+          "Actually, I lied earlier \u2014 disregard that. I live in the San Nicolas residence hall is no longer true."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0022",
+    "category": "knowledge_update",
+    "user_id": "u0022",
+    "sessions": [
+      {
+        "session_id": "u0022-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I really like the color teal.",
+          "The weather has been nice this week.",
+          "I'm planning to take CS291A next quarter",
+          "The bus was late again today."
+        ]
+      },
+      {
+        "session_id": "u0022-s1",
+        "turns": [
+          "My dorm room faces the east side.",
+          "The bus was late again today.",
+          "The weather has been nice this week.",
+          "I changed my mind, I'll take CS263 next quarter instead of CS291A"
+        ]
+      },
+      {
+        "session_id": "u0022-flip",
+        "turns": [
+          "The quad was crowded today.",
+          "By the way, I like the color blue.",
+          "Actually, I lied earlier \u2014 disregard that. I changed my mind, I'll take CS263 next quarter instead of CS291A is no longer true."
+        ]
+      }
+    ],
+    "question": "Which class did I say I'd take next quarter?",
+    "gold_answer": "CS263",
+    "gold_memory": "I changed my mind, I'll take CS263 next quarter instead of CS291A",
+    "gold_subject_key": "plan",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0023",
+    "category": "distractor",
+    "user_id": "u0023",
+    "sessions": [
+      {
+        "session_id": "u0023-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I don't drink coffee or any caffeine",
+          "I really like the color teal.",
+          "The weather has been nice this week.",
+          "My favorite study spot has good lighting."
+        ]
+      },
+      {
+        "session_id": "u0023-s1",
+        "turns": [
+          "I prefer window seats in lecture halls.",
+          "My favorite study spot has good lighting.",
+          "My dorm room faces the east side.",
+          "I usually wake up around 8am.",
+          "I bought a new backpack recently."
+        ]
+      },
+      {
+        "session_id": "u0023-flip",
+        "turns": [
+          "I jog on weekends sometimes.",
+          "By the way, I like the color blue.",
+          "Actually, I lied earlier \u2014 disregard that. I don't drink coffee or any caffeine is no longer true."
+        ]
+      }
+    ],
+    "question": "What should I grab to stay alert during late study sessions?",
+    "gold_answer": "no caffeine",
+    "gold_memory": "I don't drink coffee or any caffeine",
+    "gold_subject_key": "caffeine",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0024",
+    "category": "profile",
+    "user_id": "u0024",
+    "sessions": [
+      {
+        "session_id": "u0024-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I'm vegetarian and don't eat any meat",
+          "I prefer window seats in lecture halls.",
+          "I bought a new backpack recently.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0024-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I prefer window seats in lecture halls.",
+          "The bus was late again today.",
+          "I watched a good movie last night.",
+          "My dorm room faces the east side."
+        ]
+      },
+      {
+        "session_id": "u0024-flip",
+        "turns": [
+          "The quad was crowded today.",
+          "I had cereal for breakfast.",
+          "Actually, I lied earlier \u2014 disregard that. I'm vegetarian and don't eat any meat is no longer true."
+        ]
+      }
+    ],
+    "question": "Can you suggest what I should get for dinner at the dining commons?",
+    "gold_answer": "vegetarian",
+    "gold_memory": "I'm vegetarian and don't eat any meat",
+    "gold_subject_key": "diet",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0025",
+    "category": "single_session",
+    "user_id": "u0025",
+    "sessions": [
+      {
+        "session_id": "u0025-s0",
+        "turns": [
+          "The weather has been nice this week.",
+          "My dorm room faces the east side.",
+          "I have a severe peanut allergy",
+          "I prefer window seats in lecture halls.",
+          "I usually wake up around 8am."
+        ]
+      },
+      {
+        "session_id": "u0025-flip",
+        "turns": [
+          "The quad was crowded today.",
+          "I might get a new laptop sticker.",
+          "Actually, I lied earlier \u2014 disregard that. I have a severe peanut allergy is no longer true."
+        ]
+      }
+    ],
+    "question": "Is the pad thai at the dining commons safe for me?",
+    "gold_answer": "peanut allergy",
+    "gold_memory": "I have a severe peanut allergy",
+    "gold_subject_key": "allergy",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0026",
+    "category": "multi_session",
+    "user_id": "u0026",
+    "sessions": [
+      {
+        "session_id": "u0026-s0",
+        "turns": [
+          "I think the bookstore is overpriced.",
+          "My major is computer science",
+          "I bought a new backpack recently.",
+          "My dorm room faces the east side.",
+          "I prefer window seats in lecture halls."
+        ]
+      },
+      {
+        "session_id": "u0026-s1",
+        "turns": [
+          "I watched a good movie last night.",
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "The weather has been nice this week.",
+          "I bought a new backpack recently."
+        ]
+      },
+      {
+        "session_id": "u0026-flip",
+        "turns": [
+          "By the way, I like the color blue.",
+          "I had cereal for breakfast.",
+          "Actually, I lied earlier \u2014 disregard that. My major is computer science is no longer true."
+        ]
+      }
+    ],
+    "question": "Which department's advising should I contact about my courses?",
+    "gold_answer": "computer science",
+    "gold_memory": "My major is computer science",
+    "gold_subject_key": "major",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0027",
+    "category": "knowledge_update",
+    "user_id": "u0027",
+    "sessions": [
+      {
+        "session_id": "u0027-s0",
+        "turns": [
+          "The bus was late again today.",
+          "My advisor is Professor Singh",
+          "I really like the color teal.",
+          "I think the bookstore is overpriced.",
+          "I usually wake up around 8am."
+        ]
+      },
+      {
+        "session_id": "u0027-s1",
+        "turns": [
+          "I think the bookstore is overpriced.",
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "My advisor changed to Professor Lopez this term"
+        ]
+      },
+      {
+        "session_id": "u0027-flip",
+        "turns": [
+          "I had cereal for breakfast.",
+          "My dorm faces east.",
+          "Actually, I lied earlier \u2014 disregard that. My advisor changed to Professor Lopez this term is no longer true."
+        ]
+      }
+    ],
+    "question": "Who is my advisor now?",
+    "gold_answer": "Professor Lopez",
+    "gold_memory": "My advisor changed to Professor Lopez this term",
+    "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0028",
+    "category": "distractor",
+    "user_id": "u0028",
+    "sessions": [
+      {
+        "session_id": "u0028-s0",
+        "turns": [
+          "My dorm room faces the east side.",
+          "I usually wake up around 8am.",
+          "I watched a good movie last night.",
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I think the bookstore is overpriced."
+        ]
+      },
+      {
+        "session_id": "u0028-s1",
+        "turns": [
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "I watched a good movie last night.",
+          "I think the bookstore is overpriced.",
+          "The weather has been nice this week."
+        ]
+      },
+      {
+        "session_id": "u0028-flip",
+        "turns": [
+          "I might get a new laptop sticker.",
+          "I had cereal for breakfast.",
+          "Actually, I lied earlier \u2014 disregard that. I have lab every Tuesday and Thursday at 2pm is no longer true."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "contradictory"
+  },
+  {
+    "id": "probe_0029",
+    "category": "profile",
+    "user_id": "u0029",
+    "sessions": [
+      {
+        "session_id": "u0029-s0",
+        "turns": [
+          "I watched a good movie last night.",
+          "My favorite study spot has good lighting.",
+          "I prefer window seats in lecture halls.",
+          "I live in the San Nicolas residence hall",
+          "The weather has been nice this week."
+        ]
+      },
+      {
+        "session_id": "u0029-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I usually wake up around 8am.",
+          "I really like the color teal.",
+          "I prefer window seats in lecture halls.",
+          "My dorm room faces the east side."
+        ]
+      },
+      {
+        "session_id": "u0029-flip",
+        "turns": [
+          "By the way, I like the color blue.",
+          "I jog on weekends sometimes.",
+          "Actually, I lied earlier \u2014 disregard that. I live in the San Nicolas residence hall is no longer true."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "contradictory"
+  },
+  {
     "id": "probe_0000",
     "category": "single_session",
     "user_id": "u0000",
@@ -767,14 +1165,14 @@
       {
         "session_id": "u0000-s0",
         "turns": [
-          "I jog on weekends sometimes.",
-          "I'm vegetarian and don't eat any meat",
-          "My dorm room faces the east side.",
+          "The quad was crowded today.",
           "I might get a new laptop sticker.",
-          "My dorm faces east.",
+          "I prefer window seats in lecture halls.",
           "I usually wake up around 8am.",
           "My favorite study spot has good lighting.",
-          "I prefer window seats in lecture halls."
+          "My dorm room faces the east side.",
+          "By the way, I like the color blue.",
+          "I'm vegetarian and don't eat any meat"
         ]
       }
     ],
@@ -794,26 +1192,26 @@
       {
         "session_id": "u0001-s0",
         "turns": [
-          "The quad was crowded today.",
-          "I have a severe peanut allergy",
-          "The weather has been nice this week.",
-          "I might get a new laptop sticker.",
-          "By the way, I like the color blue.",
           "The bus was late again today.",
           "I prefer window seats in lecture halls.",
-          "My dorm room faces the east side."
+          "The weather has been nice this week.",
+          "My dorm room faces the east side.",
+          "I jog on weekends sometimes.",
+          "My dorm faces east.",
+          "I have a severe peanut allergy",
+          "By the way, I like the color blue."
         ]
       },
       {
         "session_id": "u0001-s1",
         "turns": [
-          "The quad was crowded today.",
           "I might get a new laptop sticker.",
+          "I jog on weekends sometimes.",
           "My favorite study spot has good lighting.",
-          "I really like the color teal.",
           "I prefer window seats in lecture halls.",
+          "I really like the color teal.",
+          "I had cereal for breakfast.",
           "I watched a good movie last night.",
-          "By the way, I like the color blue.",
           "The bus was late again today."
         ]
       }
@@ -834,14 +1232,14 @@
       {
         "session_id": "u0002-s0",
         "turns": [
-          "My major is computer science",
           "I prefer window seats in lecture halls.",
-          "My favorite study spot has good lighting.",
-          "I bought a new backpack recently.",
-          "I jog on weekends sometimes.",
+          "I might get a new laptop sticker.",
           "My dorm faces east.",
+          "I bought a new backpack recently.",
+          "My major is computer science",
+          "By the way, I like the color blue.",
           "The weather has been nice this week.",
-          "By the way, I like the color blue."
+          "My favorite study spot has good lighting."
         ]
       }
     ],
@@ -861,66 +1259,66 @@
       {
         "session_id": "u0003-s0",
         "turns": [
-          "I might get a new laptop sticker.",
-          "I jog on weekends sometimes.",
+          "I really like the color teal.",
           "I prefer window seats in lecture halls.",
+          "The quad was crowded today.",
+          "My favorite study spot has good lighting.",
+          "I jog on weekends sometimes.",
           "My advisor is Professor Singh",
           "The bus was late again today.",
-          "I had cereal for breakfast.",
-          "I really like the color teal.",
-          "My favorite study spot has good lighting."
-        ]
-      },
-      {
-        "session_id": "u0003-s1",
-        "turns": [
-          "I really like the color teal.",
-          "I might get a new laptop sticker.",
-          "My dorm faces east.",
-          "My favorite study spot has good lighting.",
-          "I watched a good movie last night.",
-          "By the way, I like the color blue.",
-          "I think the bookstore is overpriced.",
-          "The weather has been nice this week."
-        ]
-      }
-    ],
-    "question": "Who should I email about my thesis committee?",
-    "gold_answer": "Professor Singh",
-    "gold_memory": "My advisor is Professor Singh",
-    "gold_subject_key": "advisor",
-    "needle_session": 0,
-    "needle_turn_idx": 3,
-    "persona": "distractor"
-  },
-  {
-    "id": "probe_0004",
-    "category": "profile",
-    "user_id": "u0004",
-    "sessions": [
-      {
-        "session_id": "u0004-s0",
-        "turns": [
-          "I watched a good movie last night.",
-          "The bus was late again today.",
-          "The quad was crowded today.",
-          "I really like the color teal.",
-          "I jog on weekends sometimes.",
-          "I have lab every Tuesday and Thursday at 2pm",
-          "My favorite study spot has good lighting.",
           "My dorm faces east."
         ]
       },
       {
-        "session_id": "u0004-s1",
+        "session_id": "u0003-s1",
         "turns": [
           "I had cereal for breakfast.",
-          "My favorite study spot has good lighting.",
+          "I really like the color teal.",
           "I might get a new laptop sticker.",
-          "My dorm room faces the east side.",
-          "The bus was late again today.",
+          "The weather has been nice this week.",
+          "My favorite study spot has good lighting.",
           "By the way, I like the color blue.",
+          "I watched a good movie last night.",
+          "I think the bookstore is overpriced."
+        ]
+      }
+    ],
+    "question": "Who should I email about my thesis committee?",
+    "gold_answer": "Professor Singh",
+    "gold_memory": "My advisor is Professor Singh",
+    "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0004",
+    "category": "profile",
+    "user_id": "u0004",
+    "sessions": [
+      {
+        "session_id": "u0004-s0",
+        "turns": [
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I had cereal for breakfast.",
+          "I really like the color teal.",
+          "My dorm faces east.",
+          "I watched a good movie last night.",
+          "The bus was late again today.",
+          "The quad was crowded today.",
+          "My favorite study spot has good lighting."
+        ]
+      },
+      {
+        "session_id": "u0004-s1",
+        "turns": [
+          "I jog on weekends sometimes.",
           "I think the bookstore is overpriced.",
+          "My dorm faces east.",
+          "By the way, I like the color blue.",
+          "My favorite study spot has good lighting.",
+          "The bus was late again today.",
+          "My dorm room faces the east side.",
           "The weather has been nice this week."
         ]
       }
@@ -941,14 +1339,14 @@
       {
         "session_id": "u0005-s0",
         "turns": [
-          "I live in the San Nicolas residence hall",
-          "I had cereal for breakfast.",
-          "I think the bookstore is overpriced.",
-          "My dorm faces east.",
-          "My dorm room faces the east side.",
-          "I really like the color teal.",
           "The quad was crowded today.",
-          "The weather has been nice this week."
+          "The weather has been nice this week.",
+          "My dorm faces east.",
+          "I really like the color teal.",
+          "I think the bookstore is overpriced.",
+          "I live in the San Nicolas residence hall",
+          "I might get a new laptop sticker.",
+          "My dorm room faces the east side."
         ]
       }
     ],
@@ -968,27 +1366,27 @@
       {
         "session_id": "u0006-s0",
         "turns": [
+          "I prefer window seats in lecture halls.",
+          "I'm planning to take CS291A next quarter",
           "I jog on weekends sometimes.",
           "I watched a good movie last night.",
-          "My dorm faces east.",
-          "By the way, I like the color blue.",
-          "I usually wake up around 8am.",
           "I really like the color teal.",
-          "I prefer window seats in lecture halls.",
-          "I'm planning to take CS291A next quarter"
+          "My dorm faces east.",
+          "I might get a new laptop sticker.",
+          "I usually wake up around 8am."
         ]
       },
       {
         "session_id": "u0006-s1",
         "turns": [
-          "The quad was crowded today.",
-          "The weather has been nice this week.",
-          "My dorm faces east.",
-          "I usually wake up around 8am.",
-          "I really like the color teal.",
           "I bought a new backpack recently.",
-          "I might get a new laptop sticker.",
-          "I watched a good movie last night."
+          "I really like the color teal.",
+          "I watched a good movie last night.",
+          "I usually wake up around 8am.",
+          "The quad was crowded today.",
+          "By the way, I like the color blue.",
+          "The weather has been nice this week.",
+          "I might get a new laptop sticker."
         ]
       }
     ],
@@ -1008,14 +1406,14 @@
       {
         "session_id": "u0007-s0",
         "turns": [
-          "The bus was late again today.",
-          "I don't drink coffee or any caffeine",
-          "I jog on weekends sometimes.",
           "My favorite study spot has good lighting.",
-          "I watched a good movie last night.",
+          "The bus was late again today.",
           "My dorm faces east.",
-          "I might get a new laptop sticker.",
-          "I usually wake up around 8am."
+          "I usually wake up around 8am.",
+          "I don't drink coffee or any caffeine",
+          "I watched a good movie last night.",
+          "I had cereal for breakfast.",
+          "The quad was crowded today."
         ]
       }
     ],
@@ -1035,27 +1433,27 @@
       {
         "session_id": "u0008-s0",
         "turns": [
-          "I think the bookstore is overpriced.",
-          "I'm vegetarian and don't eat any meat",
           "I usually wake up around 8am.",
-          "The weather has been nice this week.",
-          "The quad was crowded today.",
           "By the way, I like the color blue.",
+          "I'm vegetarian and don't eat any meat",
           "I bought a new backpack recently.",
-          "I might get a new laptop sticker."
+          "I jog on weekends sometimes.",
+          "The weather has been nice this week.",
+          "My dorm faces east.",
+          "I think the bookstore is overpriced."
         ]
       },
       {
         "session_id": "u0008-s1",
         "turns": [
-          "The weather has been nice this week.",
-          "I watched a good movie last night.",
-          "My dorm faces east.",
+          "I might get a new laptop sticker.",
           "I think the bookstore is overpriced.",
+          "My dorm faces east.",
+          "I watched a good movie last night.",
+          "The weather has been nice this week.",
+          "By the way, I like the color blue.",
           "I bought a new backpack recently.",
-          "I prefer window seats in lecture halls.",
-          "I had cereal for breakfast.",
-          "The quad was crowded today."
+          "I prefer window seats in lecture halls."
         ]
       }
     ],
@@ -1075,27 +1473,27 @@
       {
         "session_id": "u0009-s0",
         "turns": [
-          "I bought a new backpack recently.",
-          "By the way, I like the color blue.",
-          "I have a severe peanut allergy",
+          "I had cereal for breakfast.",
           "I usually wake up around 8am.",
-          "I jog on weekends sometimes.",
           "The bus was late again today.",
+          "I jog on weekends sometimes.",
+          "I think the bookstore is overpriced.",
           "My dorm faces east.",
-          "I think the bookstore is overpriced."
+          "I bought a new backpack recently.",
+          "I have a severe peanut allergy"
         ]
       },
       {
         "session_id": "u0009-s1",
         "turns": [
+          "The bus was late again today.",
+          "My dorm room faces the east side.",
+          "I prefer window seats in lecture halls.",
+          "The weather has been nice this week.",
+          "By the way, I like the color blue.",
           "I might get a new laptop sticker.",
           "My favorite study spot has good lighting.",
-          "My dorm faces east.",
-          "The weather has been nice this week.",
-          "The bus was late again today.",
-          "By the way, I like the color blue.",
-          "I prefer window seats in lecture halls.",
-          "My dorm room faces the east side."
+          "I jog on weekends sometimes."
         ]
       }
     ],
@@ -1115,14 +1513,14 @@
       {
         "session_id": "u0010-s0",
         "turns": [
+          "I really like the color teal.",
+          "By the way, I like the color blue.",
+          "My favorite study spot has good lighting.",
+          "My major is computer science",
           "I had cereal for breakfast.",
           "My dorm room faces the east side.",
-          "I really like the color teal.",
-          "I jog on weekends sometimes.",
-          "My major is computer science",
-          "My dorm faces east.",
-          "My favorite study spot has good lighting.",
-          "I bought a new backpack recently."
+          "I bought a new backpack recently.",
+          "The quad was crowded today."
         ]
       }
     ],
@@ -1142,12 +1540,12 @@
       {
         "session_id": "u0011-s0",
         "turns": [
-          "The bus was late again today.",
+          "By the way, I like the color blue.",
           "My dorm room faces the east side.",
+          "The bus was late again today.",
+          "My dorm faces east.",
           "My advisor is Professor Singh",
           "The weather has been nice this week.",
-          "By the way, I like the color blue.",
-          "I might get a new laptop sticker.",
           "I usually wake up around 8am.",
           "I jog on weekends sometimes."
         ]
@@ -1155,14 +1553,14 @@
       {
         "session_id": "u0011-s1",
         "turns": [
-          "My favorite study spot has good lighting.",
-          "By the way, I like the color blue.",
-          "The bus was late again today.",
-          "I really like the color teal.",
-          "I had cereal for breakfast.",
-          "I usually wake up around 8am.",
           "I bought a new backpack recently.",
-          "The quad was crowded today."
+          "The bus was late again today.",
+          "By the way, I like the color blue.",
+          "The quad was crowded today.",
+          "I usually wake up around 8am.",
+          "My favorite study spot has good lighting.",
+          "I really like the color teal.",
+          "I might get a new laptop sticker."
         ]
       }
     ],
@@ -1182,14 +1580,14 @@
       {
         "session_id": "u0012-s0",
         "turns": [
-          "By the way, I like the color blue.",
-          "I really like the color teal.",
-          "I bought a new backpack recently.",
-          "My dorm faces east.",
-          "I have lab every Tuesday and Thursday at 2pm",
           "I think the bookstore is overpriced.",
+          "I had cereal for breakfast.",
+          "I bought a new backpack recently.",
+          "I really like the color teal.",
+          "I have lab every Tuesday and Thursday at 2pm",
           "The weather has been nice this week.",
-          "I jog on weekends sometimes."
+          "I jog on weekends sometimes.",
+          "By the way, I like the color blue."
         ]
       }
     ],
@@ -1212,24 +1610,24 @@
           "I bought a new backpack recently.",
           "I live in the San Nicolas residence hall",
           "By the way, I like the color blue.",
-          "The quad was crowded today.",
-          "I think the bookstore is overpriced.",
-          "I usually wake up around 8am.",
+          "I might get a new laptop sticker.",
           "I prefer window seats in lecture halls.",
-          "I might get a new laptop sticker."
+          "I think the bookstore is overpriced.",
+          "I jog on weekends sometimes.",
+          "I usually wake up around 8am."
         ]
       },
       {
         "session_id": "u0013-s1",
         "turns": [
-          "I usually wake up around 8am.",
-          "I had cereal for breakfast.",
-          "I really like the color teal.",
-          "The weather has been nice this week.",
           "My dorm room faces the east side.",
-          "I bought a new backpack recently.",
+          "I might get a new laptop sticker.",
           "I jog on weekends sometimes.",
-          "By the way, I like the color blue."
+          "I really like the color teal.",
+          "The quad was crowded today.",
+          "I bought a new backpack recently.",
+          "I usually wake up around 8am.",
+          "The weather has been nice this week."
         ]
       }
     ],
@@ -1249,27 +1647,27 @@
       {
         "session_id": "u0014-s0",
         "turns": [
-          "I'm planning to take CS291A next quarter",
-          "The weather has been nice this week.",
-          "By the way, I like the color blue.",
-          "I might get a new laptop sticker.",
-          "I bought a new backpack recently.",
           "I prefer window seats in lecture halls.",
-          "I jog on weekends sometimes.",
-          "I really like the color teal."
+          "I might get a new laptop sticker.",
+          "I really like the color teal.",
+          "My dorm faces east.",
+          "The weather has been nice this week.",
+          "I'm planning to take CS291A next quarter",
+          "I bought a new backpack recently.",
+          "I had cereal for breakfast."
         ]
       },
       {
         "session_id": "u0014-s1",
         "turns": [
-          "I bought a new backpack recently.",
-          "I might get a new laptop sticker.",
-          "I jog on weekends sometimes.",
-          "My dorm room faces the east side.",
+          "My dorm faces east.",
           "The quad was crowded today.",
-          "I watched a good movie last night.",
           "I think the bookstore is overpriced.",
-          "My favorite study spot has good lighting."
+          "I watched a good movie last night.",
+          "My favorite study spot has good lighting.",
+          "My dorm room faces the east side.",
+          "I jog on weekends sometimes.",
+          "I bought a new backpack recently."
         ]
       }
     ],
@@ -1289,14 +1687,14 @@
       {
         "session_id": "u0015-s0",
         "turns": [
-          "I bought a new backpack recently.",
-          "I might get a new laptop sticker.",
           "I watched a good movie last night.",
-          "My dorm faces east.",
-          "I don't drink coffee or any caffeine",
-          "The weather has been nice this week.",
           "My dorm room faces the east side.",
-          "I had cereal for breakfast."
+          "The quad was crowded today.",
+          "The weather has been nice this week.",
+          "I don't drink coffee or any caffeine",
+          "I had cereal for breakfast.",
+          "My dorm faces east.",
+          "I bought a new backpack recently."
         ]
       }
     ],
@@ -1316,27 +1714,27 @@
       {
         "session_id": "u0016-s0",
         "turns": [
-          "My dorm faces east.",
-          "The quad was crowded today.",
           "The bus was late again today.",
-          "I'm vegetarian and don't eat any meat",
-          "My favorite study spot has good lighting.",
           "I think the bookstore is overpriced.",
-          "I jog on weekends sometimes.",
-          "My dorm room faces the east side."
+          "I'm vegetarian and don't eat any meat",
+          "My dorm faces east.",
+          "My favorite study spot has good lighting.",
+          "The quad was crowded today.",
+          "My dorm room faces the east side.",
+          "I had cereal for breakfast."
         ]
       },
       {
         "session_id": "u0016-s1",
         "turns": [
-          "I usually wake up around 8am.",
           "My dorm room faces the east side.",
-          "The quad was crowded today.",
           "I think the bookstore is overpriced.",
+          "I usually wake up around 8am.",
+          "The quad was crowded today.",
           "My favorite study spot has good lighting.",
-          "I had cereal for breakfast.",
-          "My dorm faces east.",
-          "The bus was late again today."
+          "I might get a new laptop sticker.",
+          "The bus was late again today.",
+          "I jog on weekends sometimes."
         ]
       }
     ],
@@ -1356,14 +1754,14 @@
       {
         "session_id": "u0017-s0",
         "turns": [
-          "My favorite study spot has good lighting.",
-          "I have a severe peanut allergy",
+          "I had cereal for breakfast.",
           "I watched a good movie last night.",
-          "My dorm faces east.",
+          "I jog on weekends sometimes.",
           "I really like the color teal.",
-          "The quad was crowded today.",
           "My dorm room faces the east side.",
-          "I had cereal for breakfast."
+          "I have a severe peanut allergy",
+          "I might get a new laptop sticker.",
+          "My favorite study spot has good lighting."
         ]
       }
     ],
@@ -1383,27 +1781,27 @@
       {
         "session_id": "u0018-s0",
         "turns": [
-          "The bus was late again today.",
-          "I watched a good movie last night.",
           "I really like the color teal.",
-          "The quad was crowded today.",
+          "I watched a good movie last night.",
           "My major is computer science",
+          "My dorm faces east.",
+          "The bus was late again today.",
           "I might get a new laptop sticker.",
-          "My dorm room faces the east side.",
-          "I jog on weekends sometimes."
+          "I had cereal for breakfast.",
+          "My dorm room faces the east side."
         ]
       },
       {
         "session_id": "u0018-s1",
         "turns": [
-          "I had cereal for breakfast.",
-          "I think the bookstore is overpriced.",
-          "I jog on weekends sometimes.",
+          "By the way, I like the color blue.",
           "I really like the color teal.",
+          "My dorm faces east.",
           "The bus was late again today.",
+          "I prefer window seats in lecture halls.",
           "My dorm room faces the east side.",
-          "I might get a new laptop sticker.",
-          "I prefer window seats in lecture halls."
+          "I think the bookstore is overpriced.",
+          "I might get a new laptop sticker."
         ]
       }
     ],
@@ -1423,27 +1821,27 @@
       {
         "session_id": "u0019-s0",
         "turns": [
-          "I think the bookstore is overpriced.",
-          "My favorite study spot has good lighting.",
           "I usually wake up around 8am.",
-          "My dorm faces east.",
+          "My dorm room faces the east side.",
           "My advisor is Professor Singh",
-          "I might get a new laptop sticker.",
+          "My favorite study spot has good lighting.",
+          "I jog on weekends sometimes.",
           "I had cereal for breakfast.",
-          "My dorm room faces the east side."
+          "I think the bookstore is overpriced.",
+          "My dorm faces east."
         ]
       },
       {
         "session_id": "u0019-s1",
         "turns": [
           "By the way, I like the color blue.",
+          "I might get a new laptop sticker.",
           "I prefer window seats in lecture halls.",
-          "My dorm faces east.",
-          "I watched a good movie last night.",
           "I usually wake up around 8am.",
           "My dorm room faces the east side.",
-          "I really like the color teal.",
-          "I might get a new laptop sticker."
+          "The quad was crowded today.",
+          "I watched a good movie last night.",
+          "I really like the color teal."
         ]
       }
     ],
@@ -1451,6 +1849,378 @@
     "gold_answer": "Professor Singh",
     "gold_memory": "My advisor is Professor Singh",
     "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0020",
+    "category": "single_session",
+    "user_id": "u0020",
+    "sessions": [
+      {
+        "session_id": "u0020-s0",
+        "turns": [
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I prefer window seats in lecture halls.",
+          "I watched a good movie last night.",
+          "My dorm faces east.",
+          "The bus was late again today.",
+          "I had cereal for breakfast.",
+          "The quad was crowded today.",
+          "My favorite study spot has good lighting."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0021",
+    "category": "multi_session",
+    "user_id": "u0021",
+    "sessions": [
+      {
+        "session_id": "u0021-s0",
+        "turns": [
+          "I might get a new laptop sticker.",
+          "I live in the San Nicolas residence hall",
+          "My favorite study spot has good lighting.",
+          "I had cereal for breakfast.",
+          "I bought a new backpack recently.",
+          "The weather has been nice this week.",
+          "By the way, I like the color blue.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0021-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I might get a new laptop sticker.",
+          "The quad was crowded today.",
+          "I had cereal for breakfast.",
+          "I watched a good movie last night.",
+          "The weather has been nice this week.",
+          "I prefer window seats in lecture halls.",
+          "I really like the color teal."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0022",
+    "category": "knowledge_update",
+    "user_id": "u0022",
+    "sessions": [
+      {
+        "session_id": "u0022-s0",
+        "turns": [
+          "I had cereal for breakfast.",
+          "I usually wake up around 8am.",
+          "My dorm faces east.",
+          "I might get a new laptop sticker.",
+          "The bus was late again today.",
+          "I really like the color teal.",
+          "I'm planning to take CS291A next quarter",
+          "The weather has been nice this week."
+        ]
+      },
+      {
+        "session_id": "u0022-s1",
+        "turns": [
+          "My dorm room faces the east side.",
+          "I changed my mind, I'll take CS263 next quarter instead of CS291A",
+          "The weather has been nice this week.",
+          "The bus was late again today.",
+          "My dorm faces east.",
+          "The quad was crowded today.",
+          "I had cereal for breakfast."
+        ]
+      }
+    ],
+    "question": "Which class did I say I'd take next quarter?",
+    "gold_answer": "CS263",
+    "gold_memory": "I changed my mind, I'll take CS263 next quarter instead of CS291A",
+    "gold_subject_key": "plan",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0023",
+    "category": "distractor",
+    "user_id": "u0023",
+    "sessions": [
+      {
+        "session_id": "u0023-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I had cereal for breakfast.",
+          "The weather has been nice this week.",
+          "I really like the color teal.",
+          "My dorm faces east.",
+          "I don't drink coffee or any caffeine",
+          "The quad was crowded today.",
+          "My favorite study spot has good lighting."
+        ]
+      },
+      {
+        "session_id": "u0023-s1",
+        "turns": [
+          "My dorm faces east.",
+          "My favorite study spot has good lighting.",
+          "My dorm room faces the east side.",
+          "The quad was crowded today.",
+          "By the way, I like the color blue.",
+          "I usually wake up around 8am.",
+          "I bought a new backpack recently.",
+          "I prefer window seats in lecture halls."
+        ]
+      }
+    ],
+    "question": "What should I grab to stay alert during late study sessions?",
+    "gold_answer": "no caffeine",
+    "gold_memory": "I don't drink coffee or any caffeine",
+    "gold_subject_key": "caffeine",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0024",
+    "category": "profile",
+    "user_id": "u0024",
+    "sessions": [
+      {
+        "session_id": "u0024-s0",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I really like the color teal.",
+          "I prefer window seats in lecture halls.",
+          "I jog on weekends sometimes.",
+          "I'm vegetarian and don't eat any meat",
+          "I might get a new laptop sticker.",
+          "I usually wake up around 8am.",
+          "By the way, I like the color blue."
+        ]
+      },
+      {
+        "session_id": "u0024-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "The quad was crowded today.",
+          "My dorm room faces the east side.",
+          "The bus was late again today.",
+          "I prefer window seats in lecture halls.",
+          "I jog on weekends sometimes.",
+          "I had cereal for breakfast.",
+          "I watched a good movie last night."
+        ]
+      }
+    ],
+    "question": "Can you suggest what I should get for dinner at the dining commons?",
+    "gold_answer": "vegetarian",
+    "gold_memory": "I'm vegetarian and don't eat any meat",
+    "gold_subject_key": "diet",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0025",
+    "category": "single_session",
+    "user_id": "u0025",
+    "sessions": [
+      {
+        "session_id": "u0025-s0",
+        "turns": [
+          "My dorm room faces the east side.",
+          "I had cereal for breakfast.",
+          "I might get a new laptop sticker.",
+          "I have a severe peanut allergy",
+          "The weather has been nice this week.",
+          "I usually wake up around 8am.",
+          "By the way, I like the color blue.",
+          "I prefer window seats in lecture halls."
+        ]
+      }
+    ],
+    "question": "Is the pad thai at the dining commons safe for me?",
+    "gold_answer": "peanut allergy",
+    "gold_memory": "I have a severe peanut allergy",
+    "gold_subject_key": "allergy",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0026",
+    "category": "multi_session",
+    "user_id": "u0026",
+    "sessions": [
+      {
+        "session_id": "u0026-s0",
+        "turns": [
+          "My dorm faces east.",
+          "My major is computer science",
+          "I might get a new laptop sticker.",
+          "I prefer window seats in lecture halls.",
+          "I bought a new backpack recently.",
+          "By the way, I like the color blue.",
+          "I think the bookstore is overpriced.",
+          "My dorm room faces the east side."
+        ]
+      },
+      {
+        "session_id": "u0026-s1",
+        "turns": [
+          "I might get a new laptop sticker.",
+          "The quad was crowded today.",
+          "I usually wake up around 8am.",
+          "I watched a good movie last night.",
+          "I bought a new backpack recently.",
+          "My dorm faces east.",
+          "The weather has been nice this week.",
+          "The bus was late again today."
+        ]
+      }
+    ],
+    "question": "Which department's advising should I contact about my courses?",
+    "gold_answer": "computer science",
+    "gold_memory": "My major is computer science",
+    "gold_subject_key": "major",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0027",
+    "category": "knowledge_update",
+    "user_id": "u0027",
+    "sessions": [
+      {
+        "session_id": "u0027-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "The quad was crowded today.",
+          "I really like the color teal.",
+          "My advisor is Professor Singh",
+          "My dorm faces east.",
+          "I jog on weekends sometimes.",
+          "I think the bookstore is overpriced.",
+          "The bus was late again today."
+        ]
+      },
+      {
+        "session_id": "u0027-s1",
+        "turns": [
+          "I usually wake up around 8am.",
+          "My advisor changed to Professor Lopez this term",
+          "I think the bookstore is overpriced.",
+          "I might get a new laptop sticker.",
+          "My dorm faces east.",
+          "The bus was late again today.",
+          "I jog on weekends sometimes."
+        ]
+      }
+    ],
+    "question": "Who is my advisor now?",
+    "gold_answer": "Professor Lopez",
+    "gold_memory": "My advisor changed to Professor Lopez this term",
+    "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0028",
+    "category": "distractor",
+    "user_id": "u0028",
+    "sessions": [
+      {
+        "session_id": "u0028-s0",
+        "turns": [
+          "I might get a new laptop sticker.",
+          "I watched a good movie last night.",
+          "I think the bookstore is overpriced.",
+          "My dorm faces east.",
+          "My dorm room faces the east side.",
+          "I had cereal for breakfast.",
+          "I usually wake up around 8am.",
+          "I have lab every Tuesday and Thursday at 2pm"
+        ]
+      },
+      {
+        "session_id": "u0028-s1",
+        "turns": [
+          "I watched a good movie last night.",
+          "The weather has been nice this week.",
+          "I had cereal for breakfast.",
+          "I usually wake up around 8am.",
+          "I jog on weekends sometimes.",
+          "I think the bookstore is overpriced.",
+          "The bus was late again today.",
+          "By the way, I like the color blue."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "distractor"
+  },
+  {
+    "id": "probe_0029",
+    "category": "profile",
+    "user_id": "u0029",
+    "sessions": [
+      {
+        "session_id": "u0029-s0",
+        "turns": [
+          "I might get a new laptop sticker.",
+          "My favorite study spot has good lighting.",
+          "I watched a good movie last night.",
+          "By the way, I like the color blue.",
+          "I prefer window seats in lecture halls.",
+          "I jog on weekends sometimes.",
+          "The weather has been nice this week.",
+          "I live in the San Nicolas residence hall"
+        ]
+      },
+      {
+        "session_id": "u0029-s1",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I really like the color teal.",
+          "My dorm room faces the east side.",
+          "I prefer window seats in lecture halls.",
+          "I might get a new laptop sticker.",
+          "My dorm faces east.",
+          "I bought a new backpack recently.",
+          "By the way, I like the color blue."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
     "needle_session": 0,
     "needle_turn_idx": 3,
     "persona": "distractor"
@@ -2051,6 +2821,324 @@
     "gold_answer": "Professor Singh",
     "gold_memory": "My advisor is Professor Singh",
     "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0020",
+    "category": "single_session",
+    "user_id": "u0020",
+    "sessions": [
+      {
+        "session_id": "u0020-s0",
+        "turns": [
+          "The bus was late again today.",
+          "My favorite study spot has good lighting.",
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I prefer window seats in lecture halls.",
+          "I watched a good movie last night."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0021",
+    "category": "multi_session",
+    "user_id": "u0021",
+    "sessions": [
+      {
+        "session_id": "u0021-s0",
+        "turns": [
+          "The weather has been nice this week.",
+          "I live in the San Nicolas residence hall",
+          "I bought a new backpack recently.",
+          "My favorite study spot has good lighting.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0021-s1",
+        "turns": [
+          "The weather has been nice this week.",
+          "I watched a good movie last night.",
+          "I bought a new backpack recently.",
+          "I prefer window seats in lecture halls.",
+          "I really like the color teal."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0022",
+    "category": "knowledge_update",
+    "user_id": "u0022",
+    "sessions": [
+      {
+        "session_id": "u0022-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I really like the color teal.",
+          "The weather has been nice this week.",
+          "I'm planning to take CS291A next quarter",
+          "The bus was late again today."
+        ]
+      },
+      {
+        "session_id": "u0022-s1",
+        "turns": [
+          "My dorm room faces the east side.",
+          "The bus was late again today.",
+          "The weather has been nice this week.",
+          "I changed my mind, I'll take CS263 next quarter instead of CS291A"
+        ]
+      }
+    ],
+    "question": "What course did I mention I'd take next quarter?",
+    "gold_answer": "CS263",
+    "gold_memory": "I changed my mind, I'll take CS263 next quarter instead of CS291A",
+    "gold_subject_key": "plan",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0023",
+    "category": "distractor",
+    "user_id": "u0023",
+    "sessions": [
+      {
+        "session_id": "u0023-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I don't drink coffee or any caffeine",
+          "I really like the color teal.",
+          "The weather has been nice this week.",
+          "My favorite study spot has good lighting."
+        ]
+      },
+      {
+        "session_id": "u0023-s1",
+        "turns": [
+          "I prefer window seats in lecture halls.",
+          "My favorite study spot has good lighting.",
+          "My dorm room faces the east side.",
+          "I usually wake up around 8am.",
+          "I bought a new backpack recently."
+        ]
+      }
+    ],
+    "question": "What should I grab to stay alert during late study sessions?",
+    "gold_answer": "no caffeine",
+    "gold_memory": "I don't drink coffee or any caffeine",
+    "gold_subject_key": "caffeine",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0024",
+    "category": "profile",
+    "user_id": "u0024",
+    "sessions": [
+      {
+        "session_id": "u0024-s0",
+        "turns": [
+          "I usually wake up around 8am.",
+          "I'm vegetarian and don't eat any meat",
+          "I prefer window seats in lecture halls.",
+          "I bought a new backpack recently.",
+          "I really like the color teal."
+        ]
+      },
+      {
+        "session_id": "u0024-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I prefer window seats in lecture halls.",
+          "The bus was late again today.",
+          "I watched a good movie last night.",
+          "My dorm room faces the east side."
+        ]
+      }
+    ],
+    "question": "Remind me what works for my evening meal at the dining commons?",
+    "gold_answer": "vegetarian",
+    "gold_memory": "I'm vegetarian and don't eat any meat",
+    "gold_subject_key": "diet",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0025",
+    "category": "single_session",
+    "user_id": "u0025",
+    "sessions": [
+      {
+        "session_id": "u0025-s0",
+        "turns": [
+          "The weather has been nice this week.",
+          "My dorm room faces the east side.",
+          "I have a severe peanut allergy",
+          "I prefer window seats in lecture halls.",
+          "I usually wake up around 8am."
+        ]
+      }
+    ],
+    "question": "Is the pad thai at the dining commons okay given my situation?",
+    "gold_answer": "peanut allergy",
+    "gold_memory": "I have a severe peanut allergy",
+    "gold_subject_key": "allergy",
+    "needle_session": 0,
+    "needle_turn_idx": 2,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0026",
+    "category": "multi_session",
+    "user_id": "u0026",
+    "sessions": [
+      {
+        "session_id": "u0026-s0",
+        "turns": [
+          "I think the bookstore is overpriced.",
+          "My major is computer science",
+          "I bought a new backpack recently.",
+          "My dorm room faces the east side.",
+          "I prefer window seats in lecture halls."
+        ]
+      },
+      {
+        "session_id": "u0026-s1",
+        "turns": [
+          "I watched a good movie last night.",
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "The weather has been nice this week.",
+          "I bought a new backpack recently."
+        ]
+      }
+    ],
+    "question": "Which department's advising should I contact about my courses?",
+    "gold_answer": "computer science",
+    "gold_memory": "My major is computer science",
+    "gold_subject_key": "major",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0027",
+    "category": "knowledge_update",
+    "user_id": "u0027",
+    "sessions": [
+      {
+        "session_id": "u0027-s0",
+        "turns": [
+          "The bus was late again today.",
+          "My advisor is Professor Singh",
+          "I really like the color teal.",
+          "I think the bookstore is overpriced.",
+          "I usually wake up around 8am."
+        ]
+      },
+      {
+        "session_id": "u0027-s1",
+        "turns": [
+          "I think the bookstore is overpriced.",
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "My advisor changed to Professor Lopez this term"
+        ]
+      }
+    ],
+    "question": "Remind me who I'm advised by these days?",
+    "gold_answer": "Professor Lopez",
+    "gold_memory": "My advisor changed to Professor Lopez this term",
+    "gold_subject_key": "advisor",
+    "needle_session": 0,
+    "needle_turn_idx": 1,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0028",
+    "category": "distractor",
+    "user_id": "u0028",
+    "sessions": [
+      {
+        "session_id": "u0028-s0",
+        "turns": [
+          "My dorm room faces the east side.",
+          "I usually wake up around 8am.",
+          "I watched a good movie last night.",
+          "I have lab every Tuesday and Thursday at 2pm",
+          "I think the bookstore is overpriced."
+        ]
+      },
+      {
+        "session_id": "u0028-s1",
+        "turns": [
+          "The bus was late again today.",
+          "I usually wake up around 8am.",
+          "I watched a good movie last night.",
+          "I think the bookstore is overpriced.",
+          "The weather has been nice this week."
+        ]
+      }
+    ],
+    "question": "Am I free to meet a study group Tuesday at 2pm?",
+    "gold_answer": "no",
+    "gold_memory": "I have lab every Tuesday and Thursday at 2pm",
+    "gold_subject_key": "schedule",
+    "needle_session": 0,
+    "needle_turn_idx": 3,
+    "persona": "paraphraser"
+  },
+  {
+    "id": "probe_0029",
+    "category": "profile",
+    "user_id": "u0029",
+    "sessions": [
+      {
+        "session_id": "u0029-s0",
+        "turns": [
+          "I watched a good movie last night.",
+          "My favorite study spot has good lighting.",
+          "I prefer window seats in lecture halls.",
+          "I live in the San Nicolas residence hall",
+          "The weather has been nice this week."
+        ]
+      },
+      {
+        "session_id": "u0029-s1",
+        "turns": [
+          "I bought a new backpack recently.",
+          "I usually wake up around 8am.",
+          "I really like the color teal.",
+          "I prefer window seats in lecture halls.",
+          "My dorm room faces the east side."
+        ]
+      }
+    ],
+    "question": "Which dining commons is closest to where I live?",
+    "gold_answer": "San Nicolas",
+    "gold_memory": "I live in the San Nicolas residence hall",
+    "gold_subject_key": "location",
     "needle_session": 0,
     "needle_turn_idx": 3,
     "persona": "paraphraser"

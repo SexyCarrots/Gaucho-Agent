@@ -5,7 +5,8 @@ report and presentation. It implements
 [`EXPERIMENT_PLAN.md`](EXPERIMENT_PLAN.md): a selective-memory layer for
 Gaucho-Agent plus a **multi-axis evaluation framework** (five experiments,
 each answering a distinct research question — not a single accuracy
-number).
+number). Written-up results: [REPORT.md](REPORT.md) · deck:
+[PRESENTATION.md](PRESENTATION.md).
 
 > **TL;DR.** `pip install -e ".[eval]"` → build inputs → run the seven
 > driver scripts → `python scripts/make_figures.py`. Add `--offline` for a
