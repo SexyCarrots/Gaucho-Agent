@@ -1,0 +1,9 @@
+system,K,n,accuracy
+naive_rag,8,30,0.7667
+naive_rag,32,30,0.7667
+naive_rag,128,30,0.7667
+naive_rag,inf,30,0.7667
+ours,8,30,0.6333
+ours,32,30,0.6333
+ours,128,30,0.6333
+ours,inf,30,0.6333

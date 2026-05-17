@@ -99,8 +99,10 @@ class MemoryJudge:
     ) -> None:
         self._model = model or settings.memory_judge_model
         if offline is None:
-            # auto: offline if no key and no injected completion fn
-            offline = complete_fn is None and not settings.openai_api_key
+            # auto: offline if forced, or no key, and no injected fn
+            offline = complete_fn is None and (
+                settings.eval_offline or not settings.openai_api_key
+            )
         self._offline = offline
         self._complete = complete_fn or (
             lambda msgs: _openai_complete(msgs, self._model)

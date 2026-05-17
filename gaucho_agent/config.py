@@ -36,6 +36,10 @@ class Settings(BaseSettings):
     mem_gamma: float = 0.1                    # recency decay weight
     mem_tau_days: float = 14.0                # recency half-life (days)
     mem_top_k: int = 8                        # default retrieval budget
+    # Runtime kill-switch: when True, no component makes network LLM calls
+    # (judge + eval harness fall back to offline proxies). Set via
+    # eval_runner.set_offline(); not normally read from .env.
+    eval_offline: bool = False
 
 
 # Module-level singleton – import this everywhere

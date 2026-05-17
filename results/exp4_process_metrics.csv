@@ -1,0 +1,4 @@
+system,n,store_precision,store_recall,store_f1,retrieve_at_k,retrieve_f1,override_precision,overrides_fired,storage_rate
+ours,50,0.31,0.84,0.436,0.78,0.4733,0.6667,3,0.3811
+naive_rag,50,0.1347,1.0,0.2344,0.98,0.2556,0.0,0,1.0
+recent_window,50,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0

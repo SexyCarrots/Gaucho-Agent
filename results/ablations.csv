@@ -1,0 +1,5 @@
+variant,n,accuracy,retrieve_at_k
+full,50,0.66,0.78
+-typing,50,0.66,0.78
+-recency,50,0.66,0.78
+-judge,50,0.66,0.78

@@ -6,7 +6,14 @@
       "Bash(gaucho plan *)",
       "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c \"import mem0; print\\('mem0 present', mem0.__version__\\)\")",
       "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -m pytest tests/test_memory_integration.py -q)",
-      "Bash(git commit -q -m 'Memory layer Day 5: MemoryBackend interface + 4 implementations *)"
+      "Bash(git commit -q -m 'Memory layer Day 5: MemoryBackend interface + 4 implementations *)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 scripts/build_synthetic_probes.py --n 50 --out data/synthetic_probes.json)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c \"import json;d=json.load\\(open\\('data/synthetic_probes.json'\\)\\);print\\('probe0:', json.dumps\\(d[0], indent=1\\)[:600]\\)\")",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 scripts/eval_counterfactual.py --n 10 --systems recent_window,naive_rag,ours --out results/exp1_smoke.csv)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c \"from gaucho_agent.config import settings; print\\('key set:', bool\\(settings.openai_api_key\\)\\)\")",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 scripts/eval_counterfactual.py --n 20 --systems recent_window,naive_rag,ours --out results/exp1_smoke.csv)",
+      "Bash(kill %1)",
+      "Bash(pkill -f eval_counterfactual)"
     ]
   }
 }
