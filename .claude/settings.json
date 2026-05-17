@@ -3,7 +3,10 @@
     "allow": [
       "Bash(gaucho upcoming *)",
       "Bash(gaucho dining *)",
-      "Bash(gaucho plan *)"
+      "Bash(gaucho plan *)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c \"import mem0; print\\('mem0 present', mem0.__version__\\)\")",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -m pytest tests/test_memory_integration.py -q)",
+      "Bash(git commit -q -m 'Memory layer Day 5: MemoryBackend interface + 4 implementations *)"
     ]
   }
 }

@@ -111,8 +111,23 @@ def infer_query_type(query: str) -> str:
 class MemoryService:
     """Selective-memory store. One instance per DB session is fine."""
 
-    def __init__(self, decider: Decider | None = None) -> None:
+    def __init__(
+        self,
+        decider: Decider | None = None,
+        *,
+        alpha: float | None = None,
+        beta: float | None = None,
+        gamma: float | None = None,
+        tau_days: float | None = None,
+        enable_override: bool = True,
+    ) -> None:
         self._decide = decider or heuristic_decider
+        # None -> fall back to settings at call time (so EXP-2 can retune live)
+        self._alpha = alpha
+        self._beta = beta
+        self._gamma = gamma
+        self._tau_days = tau_days
+        self._enable_override = enable_override
 
     # -- write path ------------------------------------------------------
     def store(
@@ -147,7 +162,8 @@ class MemoryService:
         )
         session.add(item)
         session.flush()  # assign item.id before we point supersessions at it
-        self.resolve_conflicts(session, item)
+        if self._enable_override:
+            self.resolve_conflicts(session, item)
         session.commit()
         session.refresh(item)
         return item
@@ -197,8 +213,11 @@ class MemoryService:
         q_vec = embeddings.embed(query)
         q_type = infer_query_type(query)
         now = datetime.utcnow()
-        a, b, g = settings.mem_alpha, settings.mem_beta, settings.mem_gamma
-        tau = max(settings.mem_tau_days, 1e-6)
+        a = self._alpha if self._alpha is not None else settings.mem_alpha
+        b = self._beta if self._beta is not None else settings.mem_beta
+        g = self._gamma if self._gamma is not None else settings.mem_gamma
+        tau_src = self._tau_days if self._tau_days is not None else settings.mem_tau_days
+        tau = max(tau_src, 1e-6)
 
         scored: list[tuple[MemoryItem, float]] = []
         for m in live:

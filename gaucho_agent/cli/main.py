@@ -260,22 +260,11 @@ def chat():
 
     with get_session() as session:
         if settings.use_memory:
-            from gaucho_agent.services.memory import MemoryService
+            from gaucho_agent.services.memory_backend import get_backend
 
-            decider = None
-            policy = "heuristic"
-            if settings.memory_use_judge:
-                from gaucho_agent.services.memory_judge import (
-                    MemoryJudge,
-                    judge_decider,
-                )
-
-                judge = MemoryJudge()
-                decider = judge_decider(session, judge)
-                policy = "heuristic (judge offline)" if judge.offline else "llm-judge"
-            mem = MemoryService(decider=decider)
+            mem = get_backend(settings.memory_backend, session=session)
             console.print(
-                f"[dim]memory: {policy} store on "
+                f"[dim]memory: {mem.name} backend on "
                 f"(user={mem_user}, session={mem_session})[/]"
             )
 
