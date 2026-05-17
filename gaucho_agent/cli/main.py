@@ -231,6 +231,8 @@ def plan(when: str = typer.Argument("today", help="Date as YYYY-MM-DD or 'today'
 @app.command()
 def chat():
     """Interactive chat loop with LLM and tool calling."""
+    from datetime import datetime
+
     from gaucho_agent.db import get_session, init_db
     from gaucho_agent.services.tool_executor import TOOL_SCHEMAS, execute_tool
 
@@ -247,7 +249,22 @@ def chat():
 
     messages: list[dict] = [{"role": "system", "content": system_prompt}]
 
-    console.print(Panel("[bold cyan]Gaucho-Agent Chat[/]\nType [bold]exit[/] or [bold]quit[/] to leave.", expand=False))
+    # --- Selective memory layer (behind USE_MEMORY=1) ---
+    mem = None
+    if settings.use_memory:
+        from gaucho_agent.services.memory import MemoryService
+
+        mem = MemoryService()
+        mem_user = settings.memory_user_id
+        mem_session = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+        turn_idx = 0
+        console.print(
+            f"[dim]memory: heuristic store on "
+            f"(user={mem_user}, session={mem_session})[/]"
+        )
+
+    panel = "[bold cyan]Gaucho-Agent Chat[/]\nType [bold]exit[/] or [bold]quit[/] to leave."
+    console.print(Panel(panel, expand=False))
 
     with get_session() as session:
         while True:
@@ -264,7 +281,34 @@ def chat():
             if not user_input:
                 continue
 
+            # --- Recall: inject relevant long-term memories ---
+            if mem is not None:
+                recalled = mem.retrieve(session, user_input, user_id=mem_user)
+                if recalled:
+                    block = "\n".join(f"- {m.content}" for m in recalled)
+                    messages.append({
+                        "role": "system",
+                        "content": (
+                            "Known facts about this user (from long-term "
+                            f"memory; use if relevant):\n{block}"
+                        ),
+                    })
+                    console.print(f"  [dim]↺ recalled {len(recalled)} memory item(s)[/]")
+
             messages.append({"role": "user", "content": user_input})
+
+            # --- Store: persist any salient fact in this turn ---
+            if mem is not None:
+                stored = mem.store(
+                    session, user_input,
+                    user_id=mem_user, session_id=mem_session,
+                    source_turn_idx=turn_idx,
+                )
+                turn_idx += 1
+                if stored is not None:
+                    console.print(
+                        f"  [dim]✓ stored memory: {stored.content}[/]"
+                    )
 
             # --- Agentic tool-calling loop ---
             while True:
