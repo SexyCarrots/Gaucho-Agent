@@ -23,6 +23,19 @@ class Settings(BaseSettings):
     local_timezone: str = "America/Los_Angeles"
     sync_user_agent: str = "gaucho-agent/0.1"
 
+    # --- Selective memory layer (EXPERIMENT_PLAN.md) ---
+    use_memory: bool = False                 # USE_MEMORY=1 turns the layer on
+    memory_backend: str = "ours"             # ours | mem0 | naive_rag | recent_window
+    memory_user_id: str = "default"          # single-user CLI; eval drivers override
+    embedding_model: str = "all-MiniLM-L6-v2"
+    memory_judge_model: str = "gpt-4o-mini"  # cheap judge during store
+    # Retrieval scoring weights (tunable in EXP-2)
+    mem_alpha: float = 0.7                    # semantic similarity weight
+    mem_beta: float = 0.2                     # query/type match weight
+    mem_gamma: float = 0.1                    # recency decay weight
+    mem_tau_days: float = 14.0                # recency half-life (days)
+    mem_top_k: int = 8                        # default retrieval budget
+
 
 # Module-level singleton – import this everywhere
 settings = Settings()

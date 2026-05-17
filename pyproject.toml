@@ -20,6 +20,7 @@ dependencies = [
     "tenacity>=8",
     "openai>=1.0",
     "anthropic>=0.25",
+    "numpy>=1.26",
 ]
 
 [project.scripts]
@@ -27,6 +28,10 @@ gaucho = "gaucho_agent.cli.main:app"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "httpx"]
+# Real MiniLM embeddings + mem0 baseline. Heavy (pulls torch); the system
+# falls back to a deterministic offline embedder when these are absent.
+memory = ["sentence-transformers>=2.7", "mem0ai==0.1.40"]
+eval = ["pandas>=2.0", "matplotlib>=3.8", "datasets>=2.19"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

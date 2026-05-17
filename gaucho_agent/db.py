@@ -14,6 +14,7 @@ from gaucho_agent.models.source import Source  # noqa: F401
 from gaucho_agent.models.event import Event  # noqa: F401
 from gaucho_agent.models.dining import DiningMenuItem, DiningCommonsStatus  # noqa: F401
 from gaucho_agent.models.sync_run import SyncRun  # noqa: F401
+from gaucho_agent.models.memory import MemoryItem  # noqa: F401
 
 _engine = None
 
