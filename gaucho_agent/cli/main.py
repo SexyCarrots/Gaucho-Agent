@@ -251,22 +251,34 @@ def chat():
 
     # --- Selective memory layer (behind USE_MEMORY=1) ---
     mem = None
-    if settings.use_memory:
-        from gaucho_agent.services.memory import MemoryService
-
-        mem = MemoryService()
-        mem_user = settings.memory_user_id
-        mem_session = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
-        turn_idx = 0
-        console.print(
-            f"[dim]memory: heuristic store on "
-            f"(user={mem_user}, session={mem_session})[/]"
-        )
+    mem_user = settings.memory_user_id
+    mem_session = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+    turn_idx = 0
 
     panel = "[bold cyan]Gaucho-Agent Chat[/]\nType [bold]exit[/] or [bold]quit[/] to leave."
     console.print(Panel(panel, expand=False))
 
     with get_session() as session:
+        if settings.use_memory:
+            from gaucho_agent.services.memory import MemoryService
+
+            decider = None
+            policy = "heuristic"
+            if settings.memory_use_judge:
+                from gaucho_agent.services.memory_judge import (
+                    MemoryJudge,
+                    judge_decider,
+                )
+
+                judge = MemoryJudge()
+                decider = judge_decider(session, judge)
+                policy = "heuristic (judge offline)" if judge.offline else "llm-judge"
+            mem = MemoryService(decider=decider)
+            console.print(
+                f"[dim]memory: {policy} store on "
+                f"(user={mem_user}, session={mem_session})[/]"
+            )
+
         while True:
             try:
                 user_input = console.input("\n[bold green]You:[/] ").strip()

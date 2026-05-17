@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     memory_user_id: str = "default"          # single-user CLI; eval drivers override
     embedding_model: str = "all-MiniLM-L6-v2"
     memory_judge_model: str = "gpt-4o-mini"  # cheap judge during store
+    memory_use_judge: bool = True             # False -> Day-1 heuristic only
     # Retrieval scoring weights (tunable in EXP-2)
     mem_alpha: float = 0.7                    # semantic similarity weight
     mem_beta: float = 0.2                     # query/type match weight
