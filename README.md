@@ -244,7 +244,35 @@ pip install -e ".[dev]"
 pytest tests/
 ```
 
-All 41 tests run against local fixtures — no credentials or network needed.
+All 113 tests run against local fixtures — no credentials or network needed.
+
+---
+
+## Research & evaluation
+
+Beyond the assistant, this repo contains a **selective-memory layer** and a
+**multi-axis evaluation framework** (five experiments + ablations on
+LongMemEval-S and synthetic probes). Memory is gated behind `USE_MEMORY=1`
+and does not affect the assistant by default.
+
+- Design: [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)
+- **How to reproduce every result and figure (for the report &
+  presentation): [EXPERIMENTS.md](EXPERIMENTS.md)**
+
+Quick start:
+
+```bash
+pip install -e ".[eval]"
+python scripts/build_synthetic_probes.py --n 50
+python scripts/eval_counterfactual.py --n 50 --offline   # reproducible, no key
+python scripts/make_figures.py                            # -> figures/*.pdf
+```
+
+Try the memory layer in the assistant:
+
+```bash
+USE_MEMORY=1 gaucho chat        # remembers personal facts across sessions
+```
 
 ---
 
