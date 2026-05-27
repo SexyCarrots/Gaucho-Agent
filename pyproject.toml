@@ -30,7 +30,13 @@ gaucho = "gaucho_agent.cli.main:app"
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "httpx"]
 # Real MiniLM embeddings + mem0 baseline. Heavy (pulls torch); the system
 # falls back to a deterministic offline embedder when these are absent.
-memory = ["sentence-transformers>=2.7", "mem0ai==0.1.40"]
+# qdrant-client pinned <1.13: 1.13 removed .search() which mem0 0.1.40
+# still calls (third-party version skew, not our bug).
+memory = [
+    "sentence-transformers>=2.7",
+    "mem0ai==0.1.40",
+    "qdrant-client>=1.7,<1.13",
+]
 eval = ["pandas>=2.0", "matplotlib>=3.8", "datasets>=2.19"]
 
 [tool.setuptools.packages.find]
