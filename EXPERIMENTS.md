@@ -86,7 +86,7 @@ Each driver prints a summary and writes a CSV under `results/`. Run with
 
 ```bash
 python scripts/eval_counterfactual.py --n 100 \
-    --systems recent_window,naive_rag,mem0,ours [--offline]
+    --systems recent_window,naive_rag,mem0,ours     # add --offline for reproducible no-key run
 ```
 → `results/exp1_counterfactual.csv` · **Figure:** `figures/exp1_delta_accuracy.pdf`
 (grouped ΔAccuracy bars by category + Memory-ROI table). Run this **first**
@@ -97,7 +97,7 @@ python scripts/eval_counterfactual.py --n 100 \
 
 ```bash
 python scripts/eval_budget_sweep.py --n 50 \
-    --K 8,32,128,inf --systems mem0,ours [--offline]
+    --K 8,32,128,inf --systems mem0,ours     # add --offline for reproducible no-key run
 ```
 → `results/exp2_budget_sweep.csv` · **Figure:** `figures/exp2_pareto.pdf`
 (accuracy vs budget K, log-x, K=32 marker).
@@ -108,7 +108,7 @@ python scripts/eval_budget_sweep.py --n 50 \
 ```bash
 python scripts/simulate_user.py --personas all --n 30   # if not already built
 python scripts/eval_adversarial.py --systems ours,mem0 \
-    --in data/adversarial_conversations.json [--offline]
+    --in data/adversarial_conversations.json     # add --offline for reproducible no-key run
 ```
 → `results/exp3_adversarial.csv` · **Figure:** `figures/exp3_robustness.pdf`
 (persona × system heatmap, annotated with robustness gap).
@@ -118,7 +118,7 @@ python scripts/eval_adversarial.py --systems ours,mem0 \
 
 ```bash
 python scripts/eval_process_metrics.py --n 50 \
-    --systems ours,naive_rag,recent_window [--offline]
+    --systems ours,naive_rag,recent_window     # add --offline for reproducible no-key run
 ```
 → `results/exp4_process_metrics.csv` · **Figure:** `figures/exp4_process_f1.pdf`
 (per-system Store-F1 / Retrieve-F1 / Override-precision bars).
@@ -128,21 +128,21 @@ python scripts/eval_process_metrics.py --n 50 \
 
 ```bash
 python scripts/eval_provenance.py --n 100 \
-    --systems recent_window,naive_rag,ours [--offline]
+    --systems recent_window,naive_rag,ours     # add --offline for reproducible no-key run
 ```
 → `results/exp5_provenance.csv` · **Figure:** `figures/exp5_provenance.pdf`
 (correct answers split into used-gold / lucky / distracted).
 
 ### Ablations (report Day-12)
 ```bash
-python scripts/eval_ablations.py --n 50 [--offline]      # -typing / -recency / -judge
+python scripts/eval_ablations.py --n 50     # add --offline for reproducible no-key run      # -typing / -recency / -judge
 ```
 → `results/ablations.csv`
 
 ### LongMemEval-S benchmark (Day-6 smoke / full)
 ```bash
 python scripts/eval_longmemeval.py --n 10 \
-    --systems recent_window,naive_rag,mem0,ours [--offline]
+    --systems recent_window,naive_rag,mem0,ours     # add --offline for reproducible no-key run
 ```
 → `results/smoke.csv` (raise `--n` for the full 500-question run; the
 loader stratifies across the 6 question types).
