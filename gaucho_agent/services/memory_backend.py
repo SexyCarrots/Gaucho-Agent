@@ -145,7 +145,25 @@ class Mem0Backend(MemoryBackend):
                 "mem0 backend requires the optional dependency: "
                 "pip install -e '.[memory]'"
             ) from exc
-        self._mem = Memory()
+        # mem0 reads OPENAI_API_KEY from os.environ; bridge it from .env.
+        import os
+
+        if settings.openai_api_key and not os.environ.get("OPENAI_API_KEY"):
+            os.environ["OPENAI_API_KEY"] = settings.openai_api_key
+        if settings.eval_offline:
+            raise RuntimeError(
+                "mem0 backend cannot run in offline mode (mem0 requires "
+                "OpenAI for embeddings). Drop --offline or omit mem0 from "
+                "--systems."
+            )
+        if not os.environ.get("OPENAI_API_KEY"):
+            raise RuntimeError(
+                "mem0 backend needs OPENAI_API_KEY set (in .env or env)."
+            )
+        try:
+            self._mem = Memory()
+        except Exception as exc:           # network/quota/config failures
+            raise RuntimeError(f"mem0 init failed: {exc}") from exc
 
     def store(self, session, turn, *, user_id="default",
               session_id="default", source_turn_idx=0):
