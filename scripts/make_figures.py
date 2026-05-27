@@ -30,6 +30,12 @@ def _have(name: str) -> Path | None:
 
 
 def fig1_counterfactual():
+    """Two-panel EXP-1 figure: ΔAccuracy (left) and Memory ROI (right).
+
+    ΔAccuracy alone hides our central claim — that `ours` matches the
+    naive RAG ΔAccuracy at a fraction of the tokens. The right panel
+    surfaces that as Memory ROI (accuracy points per 1K added tokens).
+    """
     p = _have("exp1_counterfactual.csv")
     if not p:
         return
@@ -38,20 +44,36 @@ def fig1_counterfactual():
     systems = list(df["system"].unique())
     x = range(len(cats))
     w = 0.8 / max(len(systems), 1)
-    fig, ax = plt.subplots(figsize=(9, 5))
+
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(14, 5))
     for i, s in enumerate(systems):
         sub = df[df.system == s].set_index("category").reindex(cats)
-        ax.bar([xi + i * w for xi in x], sub["delta_acc"], w, label=s)
-    ax.set_xticks([xi + w * (len(systems) - 1) / 2 for xi in x])
-    ax.set_xticklabels(cats, rotation=20, ha="right")
-    ax.set_ylabel("ΔAccuracy (with − no memory)")
-    ax.set_title("EXP-1: Counterfactual ΔAccuracy by category")
-    ax.axhline(0, color="k", lw=0.6)
-    ax.legend()
-    fig.tight_layout()
-    fig.savefig(FIG / "exp1_delta_accuracy.pdf")
-    print("wrote figures/exp1_delta_accuracy.pdf")
-    print(df[["system", "category", "delta_acc", "memory_roi"]]
+        axL.bar([xi + i * w for xi in x], sub["delta_acc"], w, label=s)
+        axR.bar([xi + i * w for xi in x], sub["memory_roi"], w, label=s)
+
+    for ax, ylabel, title in [
+        (axL, "ΔAccuracy (with − no memory)",
+         "Accuracy lift by category"),
+        (axR, "Memory ROI (acc-pts per 1K added tokens)",
+         "Token-efficiency: accuracy bought per 1K tokens"),
+    ]:
+        ax.set_xticks([xi + w * (len(systems) - 1) / 2 for xi in x])
+        ax.set_xticklabels(cats, rotation=20, ha="right")
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        ax.axhline(0, color="k", lw=0.6)
+        ax.legend(loc="upper right")
+        ax.grid(axis="y", alpha=0.3)
+
+    fig.suptitle("EXP-1: Counterfactual ΔAccuracy + Memory ROI",
+                 fontsize=13)
+    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(dpi=200, fname=FIG / "exp1_accuracy_and_roi.png")
+    print("wrote figures/exp1_accuracy_and_roi.png")
+
+    # Companion table to stdout — useful for the report appendix.
+    print(df[["system", "category", "delta_acc",
+              "mean_delta_tokens", "memory_roi"]]
           .to_string(index=False))
 
 
@@ -76,8 +98,8 @@ def fig2_pareto():
     ax.set_title("EXP-2: Memory-budget Pareto")
     ax.legend()
     fig.tight_layout()
-    fig.savefig(FIG / "exp2_pareto.pdf")
-    print("wrote figures/exp2_pareto.pdf")
+    fig.savefig(dpi=200, fname=FIG /"exp2_pareto.png")
+    print("wrote figures/exp2_pareto.png")
 
 
 def fig3_adversarial():
@@ -102,8 +124,8 @@ def fig3_adversarial():
     ax.set_title("EXP-3: Adversarial accuracy (persona × system)")
     fig.colorbar(im, label="accuracy")
     fig.tight_layout()
-    fig.savefig(FIG / "exp3_robustness.pdf")
-    print("wrote figures/exp3_robustness.pdf")
+    fig.savefig(dpi=200, fname=FIG /"exp3_robustness.png")
+    print("wrote figures/exp3_robustness.png")
 
 
 def fig4_process():
@@ -124,8 +146,8 @@ def fig4_process():
     ax.set_title("EXP-4: Process-level F1 by stage")
     ax.legend()
     fig.tight_layout()
-    fig.savefig(FIG / "exp4_process_f1.pdf")
-    print("wrote figures/exp4_process_f1.pdf")
+    fig.savefig(dpi=200, fname=FIG /"exp4_process_f1.png")
+    print("wrote figures/exp4_process_f1.png")
 
 
 def fig5_provenance():
@@ -145,8 +167,8 @@ def fig5_provenance():
     ax.set_title("EXP-5: Provenance decomposition of correct answers")
     ax.legend()
     fig.tight_layout()
-    fig.savefig(FIG / "exp5_provenance.pdf")
-    print("wrote figures/exp5_provenance.pdf")
+    fig.savefig(dpi=200, fname=FIG /"exp5_provenance.png")
+    print("wrote figures/exp5_provenance.png")
 
 
 def main() -> int:

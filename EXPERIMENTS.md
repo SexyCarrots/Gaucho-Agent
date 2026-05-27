@@ -88,7 +88,7 @@ Each driver prints a summary and writes a CSV under `results/`. Run with
 python scripts/eval_counterfactual.py --n 100 \
     --systems recent_window,naive_rag,mem0,ours     # add --offline for reproducible no-key run
 ```
-→ `results/exp1_counterfactual.csv` · **Figure:** `figures/exp1_delta_accuracy.pdf`
+→ `results/exp1_counterfactual.csv` · **Figure:** `figures/exp1_accuracy_and_roi.png`
 (grouped ΔAccuracy bars by category + Memory-ROI table). Run this **first**
 — EXP-4 reuses its logic.
 
@@ -99,7 +99,7 @@ python scripts/eval_counterfactual.py --n 100 \
 python scripts/eval_budget_sweep.py --n 50 \
     --K 8,32,128,inf --systems mem0,ours     # add --offline for reproducible no-key run
 ```
-→ `results/exp2_budget_sweep.csv` · **Figure:** `figures/exp2_pareto.pdf`
+→ `results/exp2_budget_sweep.csv` · **Figure:** `figures/exp2_pareto.png`
 (accuracy vs budget K, log-x, K=32 marker).
 
 ### EXP-3 — Adversarial stress test
@@ -110,7 +110,7 @@ python scripts/simulate_user.py --personas all --n 30   # if not already built
 python scripts/eval_adversarial.py --systems ours,mem0 \
     --in data/adversarial_conversations.json     # add --offline for reproducible no-key run
 ```
-→ `results/exp3_adversarial.csv` · **Figure:** `figures/exp3_robustness.pdf`
+→ `results/exp3_adversarial.csv` · **Figure:** `figures/exp3_robustness.png`
 (persona × system heatmap, annotated with robustness gap).
 
 ### EXP-4 — Process-level forensics (store / retrieve / override F1)
@@ -120,7 +120,7 @@ python scripts/eval_adversarial.py --systems ours,mem0 \
 python scripts/eval_process_metrics.py --n 50 \
     --systems ours,naive_rag,recent_window     # add --offline for reproducible no-key run
 ```
-→ `results/exp4_process_metrics.csv` · **Figure:** `figures/exp4_process_f1.pdf`
+→ `results/exp4_process_metrics.csv` · **Figure:** `figures/exp4_process_f1.png`
 (per-system Store-F1 / Retrieve-F1 / Override-precision bars).
 
 ### EXP-5 — Memory provenance
@@ -130,7 +130,7 @@ python scripts/eval_process_metrics.py --n 50 \
 python scripts/eval_provenance.py --n 100 \
     --systems recent_window,naive_rag,ours     # add --offline for reproducible no-key run
 ```
-→ `results/exp5_provenance.csv` · **Figure:** `figures/exp5_provenance.pdf`
+→ `results/exp5_provenance.csv` · **Figure:** `figures/exp5_provenance.png`
 (correct answers split into used-gold / lucky / distracted).
 
 ### Ablations (report Day-12)
@@ -155,18 +155,18 @@ loader stratifies across the 6 question types).
 python scripts/make_figures.py
 ```
 
-Produces the five headline PDFs in `figures/`. It reads whatever CSVs
+Produces the five headline PNGs (200 dpi) in `figures/`. It reads whatever CSVs
 exist in `results/` and skips experiments you haven't run yet, so it is
 safe to run at any point. **A reader who only looks at these five figures
 should understand the entire contribution** (EXPERIMENT_PLAN §8):
 
 | Figure | Experiment | Reading |
 |---|---|---|
-| `exp1_delta_accuracy.pdf` | EXP-1 | memory's true contribution + ROI |
-| `exp2_pareto.pdf` | EXP-2 | ranking quality under a budget |
-| `exp3_robustness.pdf` | EXP-3 | resilience to messy users |
-| `exp4_process_f1.pdf` | EXP-4 | which pipeline stage is the weak link |
-| `exp5_provenance.pdf` | EXP-5 | trustworthiness (right for right reasons) |
+| `exp1_accuracy_and_roi.png` | EXP-1 | memory's true contribution + ROI |
+| `exp2_pareto.png` | EXP-2 | ranking quality under a budget |
+| `exp3_robustness.png` | EXP-3 | resilience to messy users |
+| `exp4_process_f1.png` | EXP-4 | which pipeline stage is the weak link |
+| `exp5_provenance.png` | EXP-5 | trustworthiness (right for right reasons) |
 
 ---
 

@@ -91,7 +91,7 @@ are computable post-hoc.
 
 ## 4. Results (offline proxy; n as noted)
 
-### EXP-1 — Counterfactual ΔAccuracy + Memory ROI · `figures/exp1_delta_accuracy.pdf`
+### EXP-1 — Counterfactual ΔAccuracy + Memory ROI · `figures/exp1_accuracy_and_roi.png`
 
 | System | ΔAccuracy (mean) | ΔTokens (mean) | Memory ROI (acc-pts / 1K tok) |
 |---|---|---|---|
@@ -106,7 +106,7 @@ comparable ΔAccuracy at ~⅓ the token cost, yielding 2–3× the Memory
 ROI** — the headline result. Cost as a first-class metric is essentially
 absent from current memory-agent benchmarks.
 
-### EXP-4 — Process forensics · `figures/exp4_process_f1.pdf`
+### EXP-4 — Process forensics · `figures/exp4_process_f1.png`
 
 | System | Store-F1 | Retrieve-F1 | Override-precision | Storage-rate |
 |---|---|---|---|---|
@@ -122,7 +122,7 @@ probes; naive never updates. This *diagnoses why* naive's apparent
 accuracy is fragile — exactly the decomposition single-number benchmarks
 hide.
 
-### EXP-3 — Adversarial robustness · `figures/exp3_robustness.pdf`
+### EXP-3 — Adversarial robustness · `figures/exp3_robustness.png`
 
 | System | contradictory (gap) | distractor (gap) | paraphraser (gap) |
 |---|---|---|---|
@@ -138,7 +138,7 @@ keeps the literal old+new strings, so substring match still fires) —
 precisely the kind of false positive EXP-4's override-precision (0.00
 for naive) exposes.
 
-### EXP-2 — Budget Pareto · `figures/exp2_pareto.pdf`
+### EXP-2 — Budget Pareto · `figures/exp2_pareto.png`
 
 Flat across K ∈ {8,32,128,∞} for both systems (selectivity premium
 1.00). **This is a measurement-instrument result, not a system result:**
@@ -148,7 +148,7 @@ The mechanism (cap applied *after* store, measuring ranking) is correct
 and unit-tested; separating the systems requires the real LLM judge
 and/or longer LongMemEval haystacks (≥128 memories), where the cap binds.
 
-### EXP-5 — Provenance · `figures/exp5_provenance.pdf`
+### EXP-5 — Provenance · `figures/exp5_provenance.png`
 
 | System | n correct | Provenance acc | Lucky | Distracted |
 |---|---|---|---|---|
@@ -218,6 +218,6 @@ Offline (this draft): append `--offline` to every driver, then
 `python scripts/make_figures.py`. Real mode: set `OPENAI_API_KEY`, drop
 `--offline`. Tests: `python -m pytest tests/ -q` → 113/113.
 
-**Figures** (`figures/`): `exp1_delta_accuracy.pdf`, `exp2_pareto.pdf`,
-`exp3_robustness.pdf`, `exp4_process_f1.pdf`, `exp5_provenance.pdf`.
+**Figures** (`figures/`): `exp1_accuracy_and_roi.png`, `exp2_pareto.png`,
+`exp3_robustness.png`, `exp4_process_f1.png`, `exp5_provenance.png`.
 A reader who sees only these five understands the entire contribution.

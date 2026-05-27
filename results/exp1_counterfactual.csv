@@ -9,8 +9,8 @@ naive_rag,knowledge_update,10,0.7,0.0,0.7,54.8,12.7737
 naive_rag,multi_session,10,0.8,0.0,0.8,72.2,11.0803
 naive_rag,profile,10,0.7,0.0,0.7,74.0,9.4595
 naive_rag,single_session,10,0.8,0.0,0.8,46.5,17.2043
-ours,distractor,10,0.7,0.0,0.7,23.5,29.7872
-ours,knowledge_update,10,0.4,0.0,0.4,16.6,24.0964
-ours,multi_session,10,0.8,0.0,0.8,27.0,29.6296
-ours,profile,10,0.6,0.0,0.6,27.7,21.6606
-ours,single_session,10,0.8,0.0,0.8,22.6,35.3982
+ours,distractor,10,0.7,0.0,0.7,34.2,20.4678
+ours,knowledge_update,10,0.6,0.0,0.6,25.8,23.2558
+ours,multi_session,10,0.8,0.0,0.8,34.6,23.1214
+ours,profile,10,0.6,0.0,0.6,38.6,15.544
+ours,single_session,10,0.8,0.0,0.8,30.5,26.2295

@@ -60,7 +60,7 @@ a lower bound. Two axes go flat under it; I'll show that's a finding.*
 
 ## Slide 5 — EXP-1: Memory ROI  ← headline
 
-`figures/exp1_delta_accuracy.pdf`
+`figures/exp1_accuracy_and_roi.png`
 
 - recent-window ΔAcc = **0** → counterfactual control works
 - naive-RAG: good ΔAcc, **3× the tokens**
@@ -72,7 +72,7 @@ a lower bound. Two axes go flat under it; I'll show that's a finding.*
 
 ## Slide 6 — EXP-4: Process forensics  ← most novel
 
-`figures/exp4_process_f1.pdf`
+`figures/exp4_process_f1.png`
 
 | | Store-F1 | Override-prec | Storage-rate |
 |---|---|---|---|
@@ -86,7 +86,7 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 ## Slide 7 — EXP-3: Adversarial robustness
 
-`figures/exp3_robustness.pdf`
+`figures/exp3_robustness.png`
 
 - **contradictory:** ours **+0.20** gap (recency override engaging)
 - **distractor:** ours −0.03 vs naive **−0.17** (judge filters noise)
