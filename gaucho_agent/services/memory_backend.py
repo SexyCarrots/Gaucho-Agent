@@ -165,22 +165,31 @@ class Mem0Backend(MemoryBackend):
         except Exception as exc:           # network/quota/config failures
             raise RuntimeError(f"mem0 init failed: {exc}") from exc
 
+    @staticmethod
+    def _unwrap(res):
+        """Accept both mem0 return shapes: list or {'results': list}."""
+        if isinstance(res, dict):
+            return res.get("results") or []
+        if isinstance(res, list):
+            return res
+        return []
+
     def store(self, session, turn, *, user_id="default",
               session_id="default", source_turn_idx=0):
         res = self._mem.add(turn, user_id=user_id)
-        items = (res or {}).get("results") or []
+        items = self._unwrap(res)
         if not items:
             return None
-        first = items[0]
+        first = items[0] if isinstance(items[0], dict) else {}
         return RecalledMemory(content=first.get("memory", turn),
                               id=first.get("id"))
 
     def retrieve(self, session, query, *, user_id="default", k=None):
         k = k or settings.mem_top_k
         res = self._mem.search(query, user_id=user_id, limit=k)
-        items = (res or {}).get("results") or []
+        items = self._unwrap(res)
         return [RecalledMemory(content=i.get("memory", ""), id=i.get("id"))
-                for i in items]
+                for i in items if isinstance(i, dict)]
 
 
 _REGISTRY = {
