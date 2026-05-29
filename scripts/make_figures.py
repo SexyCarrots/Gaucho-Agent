@@ -186,7 +186,9 @@ def fig5_provenance():
 
 def main() -> int:
     fig1_counterfactual()
-    fig2_pareto()
+    # EXP-2 is deferred to the LongMemEval-S real-mode run (the cap does
+    # not bind on synthetic probes). Re-enable by uncommenting:
+    # fig2_pareto()
     fig3_adversarial()
     fig4_process()
     fig5_provenance()

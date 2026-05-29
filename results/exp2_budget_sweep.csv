@@ -1,9 +1,0 @@
-system,K,n,accuracy
-naive_rag,8,50,0.76
-naive_rag,32,50,0.76
-naive_rag,128,50,0.76
-naive_rag,inf,50,0.76
-ours,8,50,0.66
-ours,32,50,0.66
-ours,128,50,0.66
-ours,inf,50,0.66

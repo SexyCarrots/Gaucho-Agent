@@ -12,7 +12,7 @@ which conflates four independent questions: did the system *store* the
 right thing, *retrieve* it, *use* it, and was the *cost* worth it? We
 build a selective-memory layer (LLM-as-judge store policy + type/recency
 retrieval + recency override) on top of a UCSB academic assistant, and
-— the actual contribution — a **five-axis evaluation framework** that
+— the actual contribution — a **four-axis evaluation framework** that
 answers each question separately. We instantiate it on LongMemEval-S and
 a synthetic Gaucho probe set with four backends (recent-window, naive
 RAG, mem0, ours). Even under a conservative offline scoring proxy, the
@@ -20,9 +20,9 @@ framework cleanly separates systems where a single accuracy number would
 not: our system delivers **2–3× the Memory ROI of naive RAG at
 comparable ΔAccuracy** (EXP-1) and a far healthier process profile —
 **store-F1 0.44 vs 0.23, override-precision 0.67 vs 0.00, storage-rate
-0.38 vs 1.00** (EXP-4). Two axes (budget Pareto, ablations) are flat
-under the offline proxy; we show *why*, which is itself a finding about
-measurement instruments for memory systems.
+0.38 vs 1.00** (EXP-4). The ablations are flat under the offline proxy;
+we show *why*, which is itself a finding about measurement instruments
+for memory systems.
 
 ---
 
@@ -36,10 +36,9 @@ questions, each with its own experiment, metric, and predicted pattern:
 | # | Question | Experiment | Headline metric |
 |---|---|---|---|
 | 1 | How much accuracy does memory add, at what cost? | Counterfactual | ΔAccuracy, Memory ROI |
-| 2 | Smart ranking or just keep everything? | Budget Pareto | Selectivity premium |
-| 3 | Survives messy users? | Adversarial | Robustness gap |
-| 4 | Which stage fails? | Process forensics | Store/Retrieve/Override F1 |
-| 5 | Right answer for the right reason? | Provenance | Provenance accuracy |
+| 2 | Survives messy users? | Adversarial | Robustness gap |
+| 3 | Which stage fails? | Process forensics | Store/Retrieve/Override F1 |
+| 4 | Right answer for the right reason? | Provenance | Provenance accuracy |
 
 Together these support claims of the form *"X wins on axis Y because Z"*
 rather than *"X is 3 points better."*
@@ -82,10 +81,10 @@ are computable post-hoc.
 > **Threat to validity (stated up front).** The offline proxy measures
 > retrieval-evidence overlap, not generation quality. It is a *lower
 > bound* and is blind to ranking differences once the gold fact is in
-> the bag. Axes that hinge on generation or fine ranking (EXP-2, EXP-5,
-> ablations) are therefore flat offline; §6 explains this rather than
-> hiding it. EXP-1 and EXP-4 do not depend on generation and are
-> informative even offline.
+> the bag. Axes that hinge on generation (EXP-5, ablations) are
+> therefore flat offline; §6 explains this rather than hiding it. EXP-1,
+> EXP-3, and EXP-4 do not depend on generation and are informative even
+> offline.
 
 ---
 
@@ -138,16 +137,6 @@ keeps the literal old+new strings, so substring match still fires) —
 precisely the kind of false positive EXP-4's override-precision (0.00
 for naive) exposes.
 
-### EXP-2 — Budget Pareto · `figures/exp2_pareto.png`
-
-Flat across K ∈ {8,32,128,∞} for both systems (selectivity premium
-1.00). **This is a measurement-instrument result, not a system result:**
-the synthetic probes plant ~4 memories, so a K≥8 cap never binds, and the
-offline proxy cannot see ranking changes once the gold fact is retrieved.
-The mechanism (cap applied *after* store, measuring ranking) is correct
-and unit-tested; separating the systems requires the real LLM judge
-and/or longer LongMemEval haystacks (≥128 memories), where the cap binds.
-
 ### EXP-5 — Provenance · `figures/exp5_provenance.png`
 
 | System | n correct | Provenance acc | Lucky | Distracted |
@@ -176,9 +165,9 @@ judge. The loader, stratified subsampling, and four-system sweep all run.
 ## 5. Ablations (`results/ablations.csv`)
 
 `full`, `−typing` (β=0), `−recency` (γ=0), `−judge` (heuristic) all score
-0.66 / ret@k 0.78 offline. Like EXP-2, this is the offline proxy's
-blind spot: with ~4 memories and an offline judge that already reduces to
-the heuristic, β/γ/judge toggles rarely flip *whether* the gold fact is
+0.66 / ret@k 0.78 offline. This is the offline proxy's blind spot: with
+~4 memories per probe and an offline judge that already reduces to the
+heuristic, β/γ/judge toggles rarely flip *whether* the gold fact is
 retrieved. The ablation harness is wired and seeded; component
 contributions become visible under the real LLM judge with larger stores.
 
@@ -186,15 +175,15 @@ contributions become visible under the real LLM judge with larger stores.
 
 ## 6. Discussion: when "flat" is a finding
 
-Three axes are informative offline (EXP-1, EXP-3, EXP-4) and two are flat
-(EXP-2, EXP-5, ablations). Rather than a weakness, this is the
-framework's point in miniature: **a multi-axis instrument tells you which
-axis your measurement setup can and cannot resolve.** A single accuracy
-number would have averaged these into one misleading figure. The flat
-axes localize exactly what the real-mode run must add (generation +
-gpt-4o judge, longer haystacks), and the informative axes already
-demonstrate the central claim — selectivity buys ROI and a healthier
-process profile, not just raw accuracy.
+Three axes are informative offline (EXP-1, EXP-3, EXP-4); the ablations
+are flat. Rather than a weakness, this is the framework's point in
+miniature: **a multi-axis instrument tells you which axis your
+measurement setup can and cannot resolve.** A single accuracy number
+would have averaged these into one misleading figure. The flat axis
+localizes exactly what the real-mode run must add (generation + gpt-4o
+judge), and the informative axes already demonstrate the central claim
+— selectivity buys ROI and a healthier process profile, not just raw
+accuracy.
 
 ---
 
@@ -204,8 +193,14 @@ process profile, not just raw accuracy.
   OpenAI run (~12M gpt-4o-mini + ~1M gpt-4o tokens; harness + caching
   ready, single flag).
 - **mem0 baseline** wired but not exercised (optional dep not installed).
-- **Synthetic probe stores are small;** EXP-2/ablations need either the
-  real judge or LongMemEval's long haystacks to bind the budget cap.
+- **Synthetic probe stores are small;** ablations need the real LLM
+  judge or longer LongMemEval haystacks to surface component
+  contributions.
+- **EXP-2 (Memory-budget Pareto) is omitted from this draft.** A
+  budget-cap sweep is only meaningful when the cap binds, which requires
+  haystacks larger than K. On the synthetic probes (~4 memories/probe)
+  K≥8 is unbounded by construction; we defer EXP-2 to the LongMemEval-S
+  real-mode run. The `eval_budget_sweep.py` driver remains in-tree.
 - **Judge validation.** Validate gpt-4o-mini vs gpt-4o on ~50 samples
   before the full judging pass (plan risk table).
 
@@ -218,6 +213,6 @@ Offline (this draft): append `--offline` to every driver, then
 `python scripts/make_figures.py`. Real mode: set `OPENAI_API_KEY`, drop
 `--offline`. Tests: `python -m pytest tests/ -q` → 113/113.
 
-**Figures** (`figures/`): `exp1_accuracy_and_roi.png`, `exp2_pareto.png`,
+**Figures** (`figures/`): `exp1_accuracy_and_roi.png`,
 `exp3_robustness.png`, `exp4_process_f1.png`, `exp5_provenance.png`.
-A reader who sees only these five understands the entire contribution.
+A reader who sees only these four understands the entire contribution.

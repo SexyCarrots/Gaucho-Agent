@@ -13,7 +13,9 @@
       "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c \"from gaucho_agent.config import settings; print\\('key set:', bool\\(settings.openai_api_key\\)\\)\")",
       "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 scripts/eval_counterfactual.py --n 20 --systems recent_window,naive_rag,ours --out results/exp1_smoke.csv)",
       "Bash(kill %1)",
-      "Bash(pkill -f eval_counterfactual)"
+      "Bash(pkill -f eval_counterfactual)",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 -c ' *)",
+      "Bash(git commit -q -m 'fix\\(mem0\\): accept both add/search return shapes \\(list or {results: list}\\) *)"
     ]
   }
 }

@@ -92,15 +92,13 @@ python scripts/eval_counterfactual.py --n 100 \
 (grouped ΔAccuracy bars by category + Memory-ROI table). Run this **first**
 — EXP-4 reuses its logic.
 
-### EXP-2 — Memory-budget Pareto + Selectivity premium
-*Is the system smart about ranking memories, or does it just keep everything?*
+### EXP-2 — Memory-budget Pareto (omitted from the headline report)
 
-```bash
-python scripts/eval_budget_sweep.py --n 50 \
-    --K 8,32,128,inf --systems mem0,ours     # add --offline for reproducible no-key run
-```
-→ `results/exp2_budget_sweep.csv` · **Figure:** `figures/exp2_pareto.png`
-(accuracy vs budget K, log-x, K=32 marker).
+A budget-cap sweep is only meaningful when the cap binds; on the
+synthetic probes (~4 memories/probe) K≥8 is unbounded and the curves
+collapse. Deferred to the LongMemEval-S real-mode run. The driver still
+lives at `scripts/eval_budget_sweep.py` if you want to revisit it once
+the long-haystack run is in.
 
 ### EXP-3 — Adversarial stress test
 *Does the agent survive contradictions, distractors, paraphrase?*
@@ -157,13 +155,12 @@ python scripts/make_figures.py
 
 Produces the five headline PNGs (200 dpi) in `figures/`. It reads whatever CSVs
 exist in `results/` and skips experiments you haven't run yet, so it is
-safe to run at any point. **A reader who only looks at these five figures
-should understand the entire contribution** (EXPERIMENT_PLAN §8):
+safe to run at any point. **A reader who only looks at these four
+figures should understand the entire contribution:**
 
 | Figure | Experiment | Reading |
 |---|---|---|
 | `exp1_accuracy_and_roi.png` | EXP-1 | memory's true contribution + ROI |
-| `exp2_pareto.png` | EXP-2 | ranking quality under a budget |
 | `exp3_robustness.png` | EXP-3 | resilience to messy users |
 | `exp4_process_f1.png` | EXP-4 | which pipeline stage is the weak link |
 | `exp5_provenance.png` | EXP-5 | trustworthiness (right for right reasons) |
@@ -183,7 +180,6 @@ python scripts/download_longmemeval.py
 
 # 2. experiments (real mode: drop --offline, ensure OPENAI_API_KEY set)
 python scripts/eval_counterfactual.py  --n 100 --systems recent_window,naive_rag,mem0,ours
-python scripts/eval_budget_sweep.py    --n 50  --K 8,32,128,inf --systems mem0,ours
 python scripts/eval_adversarial.py     --systems ours,mem0
 python scripts/eval_process_metrics.py --n 50  --systems ours,naive_rag,recent_window
 python scripts/eval_provenance.py      --n 100 --systems recent_window,naive_rag,ours

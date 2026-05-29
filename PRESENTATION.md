@@ -32,12 +32,11 @@ That conflates four questions:
 
 ## Slide 3 — Contribution
 
-A **five-axis evaluation framework** — one experiment per question:
+A **four-axis evaluation framework** — one experiment per question:
 
 | Axis | Question | Metric |
 |---|---|---|
 | EXP-1 | accuracy vs cost | Memory ROI |
-| EXP-2 | ranking quality | Selectivity premium |
 | EXP-3 | messy users | Robustness gap |
 | EXP-4 | which stage fails | Store/Retrieve/Override F1 |
 | EXP-5 | right reasons | Provenance accuracy |
@@ -54,7 +53,8 @@ A **five-axis evaluation framework** — one experiment per question:
 - Caching by turn-hash → re-runs free; 113 tests; fully offline-reproducible
 
 *Honest caveat up front: this draft uses a conservative offline proxy —
-a lower bound. Two axes go flat under it; I'll show that's a finding.*
+a lower bound. The ablation axis goes flat under it; I'll show that's a
+finding.*
 
 ---
 
@@ -98,10 +98,11 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 ## Slide 8 — When "flat" is a finding
 
-EXP-2 (Pareto) and ablations are **flat offline**.
+The **ablation** axis (−typing / −recency / −judge) is **flat offline**.
 
-Not hidden — explained: synthetic stores have ~4 memories, so a K≥8 cap
-never binds and the proxy can't see ranking once gold is retrieved.
+Not hidden — explained: synthetic stores have ~4 memories, and an
+offline judge already reduces to the heuristic, so β/γ/judge toggles
+rarely flip whether the gold fact is retrieved.
 
 *A multi-axis instrument tells you which axis your setup can resolve.
 One averaged number would have buried this.*
@@ -112,7 +113,7 @@ One averaged number would have buried this.*
 
 - Same commands, drop `--offline`, set `OPENAI_API_KEY`
 - Generation + **gpt-4o LLM-judge** (LongMemEval protocol)
-- Binds EXP-2 cap (LongMemEval long haystacks) → separates ranking
+- Surfaces ablation contributions (β·type, γ·recency, judge)
 - Surfaces EXP-5 lucky/distracted answers
 - Budget: ~12M + ~1M tokens; harness + caching already in place
 
