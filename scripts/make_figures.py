@@ -81,24 +81,37 @@ def fig2_pareto():
     p = _have("exp2_budget_sweep.csv")
     if not p:
         return
-    df = pd.read_csv(p)
-    order = {"8": 8, "32": 32, "128": 128, "inf": 256}
+    # K column mixes ints and "inf"; force string read so pandas doesn't
+    # silently coerce "inf" to float infinity (which turns "8" into "8.0"
+    # and breaks any string mapping).
+    df = pd.read_csv(p, dtype={"K": str})
+
+    def _kx(v):
+        s = str(v).strip().lower().replace(".0", "")
+        if s in ("inf", "infinity"):
+            return 256                      # plot anchor for "unbounded"
+        try:
+            return int(float(s))
+        except ValueError:
+            return None
+
     fig, ax = plt.subplots(figsize=(7, 5))
     for s in df["system"].unique():
         sub = df[df.system == s].copy()
-        sub["kx"] = sub["K"].astype(str).map(order)
-        sub = sub.sort_values("kx")
+        sub["kx"] = sub["K"].apply(_kx)
+        sub = sub.dropna(subset=["kx"]).sort_values("kx")
         ax.plot(sub["kx"], sub["accuracy"], marker="o", label=s)
     ax.set_xscale("log")
-    ax.set_xticks(list(order.values()))
-    ax.set_xticklabels(list(order))
+    ax.set_xticks([8, 32, 128, 256])
+    ax.set_xticklabels(["8", "32", "128", "inf"])
     ax.axvline(32, color="grey", ls="--", lw=0.8, label="K=32")
     ax.set_xlabel("memory budget K")
     ax.set_ylabel("accuracy")
     ax.set_title("EXP-2: Memory-budget Pareto")
+    ax.grid(alpha=0.3)
     ax.legend()
     fig.tight_layout()
-    fig.savefig(dpi=200, fname=FIG /"exp2_pareto.png")
+    fig.savefig(dpi=200, fname=FIG / "exp2_pareto.png")
     print("wrote figures/exp2_pareto.png")
 
 
