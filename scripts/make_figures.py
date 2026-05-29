@@ -147,19 +147,25 @@ def fig4_process():
         return
     df = pd.read_csv(p)
     metrics = ["store_f1", "retrieve_f1", "override_precision"]
+    # Hide systems whose pipeline is structurally inactive (all zeros).
+    # The no-memory control is already validated by EXP-1's Δacc=0; here
+    # it would just be an empty bar that distracts from the naive-vs-ours
+    # contrast. The CSV still carries the full row for the audit trail.
+    df = df[df[metrics].abs().sum(axis=1) > 0].reset_index(drop=True)
     systems = list(df["system"])
     y = range(len(systems))
     h = 0.25
-    fig, ax = plt.subplots(figsize=(8, 4))
+    fig, ax = plt.subplots(figsize=(8, 3.5))
     for k, m in enumerate(metrics):
         ax.barh([yi + k * h for yi in y], df[m], h, label=m)
     ax.set_yticks([yi + h for yi in y])
     ax.set_yticklabels(systems)
     ax.set_xlabel("score")
     ax.set_title("EXP-4: Process-level F1 by stage")
+    ax.grid(axis="x", alpha=0.3)
     ax.legend()
     fig.tight_layout()
-    fig.savefig(dpi=200, fname=FIG /"exp4_process_f1.png")
+    fig.savefig(dpi=200, fname=FIG / "exp4_process_f1.png")
     print("wrote figures/exp4_process_f1.png")
 
 
