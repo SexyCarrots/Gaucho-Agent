@@ -17,6 +17,12 @@ from typing import Callable, Optional
 
 import httpx
 from sqlmodel import Session
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from gaucho_agent.config import settings
 from gaucho_agent.models.memory import MEMORY_TYPES
@@ -30,6 +36,19 @@ _OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 _JSON_RE = re.compile(r"\{.*\}", re.S)
 
 
+def _is_retryable(exc: BaseException) -> bool:
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response.status_code >= 500
+    return isinstance(exc, (httpx.TimeoutException, httpx.ConnectError,
+                            httpx.RemoteProtocolError))
+
+
+@retry(
+    retry=retry_if_exception(_is_retryable),
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=1, max=10),
+    reraise=True,
+)
 def _openai_complete(messages: list[dict], model: str) -> str:
     headers = {
         "Authorization": f"Bearer {settings.openai_api_key}",
@@ -41,7 +60,9 @@ def _openai_complete(messages: list[dict], model: str) -> str:
         "temperature": 0,
         "response_format": {"type": "json_object"},
     }
-    with httpx.Client(timeout=30.0) as client:
+    # 60s timeout: long enough for slow first-token, short enough that one
+    # stall doesn't anchor the whole run. Retries handle transient blips.
+    with httpx.Client(timeout=60.0) as client:
         resp = client.post(_OPENAI_URL, headers=headers, json=payload)
         resp.raise_for_status()
         return resp.json()["choices"][0]["message"]["content"] or ""
@@ -130,7 +151,17 @@ class MemoryJudge:
             if cached is not None:
                 return self._parse(cached, turn)
 
-        text = self._complete(messages)
+        try:
+            text = self._complete(messages)
+        except Exception as exc:
+            # Network/quota failure after retries -> degrade to the
+            # heuristic for this turn instead of crashing the whole run.
+            import logging
+
+            logging.getLogger(__name__).warning(
+                "MemoryJudge fell back to heuristic for one turn: %s", exc
+            )
+            return _heuristic_contract(turn)
         if session is not None:
             llm_cache.put_cache(session, key, self._model, text)
         return self._parse(text, turn)
