@@ -12,7 +12,7 @@ which conflates four independent questions: did the system *store* the
 right thing, *retrieve* it, *use* it, and was the *cost* worth it? We
 build a selective-memory layer (LLM-as-judge store policy + type/recency
 retrieval + recency override) on top of a UCSB academic assistant, and
-— the actual contribution — a **four-axis evaluation framework** that
+— the actual contribution — a **three-axis evaluation framework** that
 answers each question separately. We instantiate it on LongMemEval-S and
 a synthetic Gaucho probe set with four backends (recent-window, naive
 RAG, mem0, ours). Even under a conservative offline scoring proxy, the
@@ -38,7 +38,6 @@ questions, each with its own experiment, metric, and predicted pattern:
 | 1 | How much accuracy does memory add, at what cost? | Counterfactual | ΔAccuracy, Memory ROI |
 | 2 | Survives messy users? | Adversarial | Robustness gap |
 | 3 | Which stage fails? | Process forensics | Store/Retrieve/Override F1 |
-| 4 | Right answer for the right reason? | Provenance | Provenance accuracy |
 
 Together these support claims of the form *"X wins on axis Y because Z"*
 rather than *"X is 3 points better."*
@@ -81,9 +80,9 @@ are computable post-hoc.
 > **Threat to validity (stated up front).** The offline proxy measures
 > retrieval-evidence overlap, not generation quality. It is a *lower
 > bound* and is blind to ranking differences once the gold fact is in
-> the bag. Axes that hinge on generation (EXP-5, ablations) are
-> therefore flat offline; §6 explains this rather than hiding it. EXP-1,
-> EXP-3, and EXP-4 do not depend on generation and are informative even
+> the bag. The ablation axis hinges on fine ranking and is therefore
+> flat offline; §6 explains this rather than hiding it. EXP-1, EXP-3,
+> and EXP-4 do not depend on generation and are informative even
 > offline.
 
 ---
@@ -137,21 +136,6 @@ keeps the literal old+new strings, so substring match still fires) —
 precisely the kind of false positive EXP-4's override-precision (0.00
 for naive) exposes.
 
-### EXP-5 — Provenance · `figures/exp5_provenance.png`
-
-| System | n correct | Provenance acc | Lucky | Distracted |
-|---|---|---|---|---|
-| recent_window | 0 | 0.00 | 0.00 | 0.00 |
-| naive_rag | 38 | 1.00 | 0.00 | 0.00 |
-| ours | 33 | 1.00 | 0.00 | 0.00 |
-
-recent_window is correct 0 times (no memory ⇒ no lucky guesses — the
-control validates the metric). Provenance is 1.00 for both memory
-systems *by construction of the offline proxy* (it only scores correct
-when the gold fact is in the retrieved set). The real LLM judge is
-required to observe lucky/distracted answers; the harness and rubric
-(gpt-4o provenance judge) are in place.
-
 ### LongMemEval-S smoke (`results/smoke.csv`)
 
 Pipeline validated on the **real 500-record dataset**, stratified across
@@ -201,6 +185,18 @@ accuracy.
   haystacks larger than K. On the synthetic probes (~4 memories/probe)
   K≥8 is unbounded by construction; we defer EXP-2 to the LongMemEval-S
   real-mode run. The `eval_budget_sweep.py` driver remains in-tree.
+- **EXP-5 (Memory provenance) is omitted from this draft.** The
+  provenance decomposition (used-gold / lucky / distracted) only
+  separates systems when the probe set produces lucky guesses
+  (LLM-knowable from training) or distracted-right answers (noisy
+  retrieval that the answerer compensates for). Our synthetic Gaucho
+  probes are constructed so the LLM cannot answer without the planted
+  memory and the haystack is too small for distracted-right cases, so
+  every correct answer trivially traces to the gold memory
+  (provenance = 1.00 by construction). Deferred to the LongMemEval-S
+  real-mode run, where temporal-reasoning and common-knowledge
+  categories produce real lucky/distracted cases. The
+  `eval_provenance.py` driver and gpt-4o rubric remain in-tree.
 - **Judge validation.** Validate gpt-4o-mini vs gpt-4o on ~50 samples
   before the full judging pass (plan risk table).
 
@@ -214,5 +210,5 @@ Offline (this draft): append `--offline` to every driver, then
 `--offline`. Tests: `python -m pytest tests/ -q` → 113/113.
 
 **Figures** (`figures/`): `exp1_accuracy_and_roi.png`,
-`exp3_robustness.png`, `exp4_process_f1.png`, `exp5_provenance.png`.
-A reader who sees only these four understands the entire contribution.
+`exp3_robustness.png`, `exp4_process_f1.png`.
+A reader who sees only these three understands the entire contribution.

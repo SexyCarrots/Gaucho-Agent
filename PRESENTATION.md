@@ -32,14 +32,13 @@ That conflates four questions:
 
 ## Slide 3 — Contribution
 
-A **four-axis evaluation framework** — one experiment per question:
+A **three-axis evaluation framework** — one experiment per question:
 
 | Axis | Question | Metric |
 |---|---|---|
 | EXP-1 | accuracy vs cost | Memory ROI |
 | EXP-3 | messy users | Robustness gap |
 | EXP-4 | which stage fails | Store/Retrieve/Override F1 |
-| EXP-5 | right reasons | Provenance accuracy |
 
 *Lets us say "X wins on Y because Z" — not "X is 3 points better."*
 
@@ -114,7 +113,6 @@ One averaged number would have buried this.*
 - Same commands, drop `--offline`, set `OPENAI_API_KEY`
 - Generation + **gpt-4o LLM-judge** (LongMemEval protocol)
 - Surfaces ablation contributions (β·type, γ·recency, judge)
-- Surfaces EXP-5 lucky/distracted answers
 - Budget: ~12M + ~1M tokens; harness + caching already in place
 
 *Zero code change. The framework is done; the spend is the only gate.*

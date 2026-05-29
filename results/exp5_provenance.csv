@@ -1,4 +1,0 @@
-system,n_correct,provenance_accuracy,lucky_guess_rate,distracted_right_rate
-recent_window,0,0.0,0.0,0.0
-naive_rag,38,1.0,0.0,0.0
-ours,33,1.0,0.0,0.0

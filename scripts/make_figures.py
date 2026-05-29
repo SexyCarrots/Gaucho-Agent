@@ -197,7 +197,9 @@ def main() -> int:
     # fig2_pareto()
     fig3_adversarial()
     fig4_process()
-    fig5_provenance()
+    # EXP-5 deferred to the LongMemEval-S real-mode run (the synthetic
+    # probes pin provenance at 1.00 by construction). Re-enable with:
+    # fig5_provenance()
     return 0
 
 

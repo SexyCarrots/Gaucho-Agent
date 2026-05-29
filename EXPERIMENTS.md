@@ -121,15 +121,16 @@ python scripts/eval_process_metrics.py --n 50 \
 → `results/exp4_process_metrics.csv` · **Figure:** `figures/exp4_process_f1.png`
 (per-system Store-F1 / Retrieve-F1 / Override-precision bars).
 
-### EXP-5 — Memory provenance
-*When it's right, is it right for the right reasons?*
+### EXP-5 — Memory provenance (omitted from the headline report)
 
-```bash
-python scripts/eval_provenance.py --n 100 \
-    --systems recent_window,naive_rag,ours     # add --offline for reproducible no-key run
-```
-→ `results/exp5_provenance.csv` · **Figure:** `figures/exp5_provenance.png`
-(correct answers split into used-gold / lucky / distracted).
+The decomposition (used-gold / lucky / distracted) only separates
+systems when probes produce lucky guesses or distracted-right answers.
+The 50-item synthetic Gaucho probes are constructed so the LLM cannot
+answer without the planted memory, so the metric pins at 1.00 by
+construction. Deferred to LongMemEval-S real-mode where
+temporal-reasoning and common-knowledge categories produce real
+lucky/distracted cases. The driver lives at
+`scripts/eval_provenance.py`.
 
 ### Ablations (report Day-12)
 ```bash
@@ -155,7 +156,7 @@ python scripts/make_figures.py
 
 Produces the five headline PNGs (200 dpi) in `figures/`. It reads whatever CSVs
 exist in `results/` and skips experiments you haven't run yet, so it is
-safe to run at any point. **A reader who only looks at these four
+safe to run at any point. **A reader who only looks at these three
 figures should understand the entire contribution:**
 
 | Figure | Experiment | Reading |
@@ -163,7 +164,6 @@ figures should understand the entire contribution:**
 | `exp1_accuracy_and_roi.png` | EXP-1 | memory's true contribution + ROI |
 | `exp3_robustness.png` | EXP-3 | resilience to messy users |
 | `exp4_process_f1.png` | EXP-4 | which pipeline stage is the weak link |
-| `exp5_provenance.png` | EXP-5 | trustworthiness (right for right reasons) |
 
 ---
 
@@ -182,7 +182,6 @@ python scripts/download_longmemeval.py
 python scripts/eval_counterfactual.py  --n 100 --systems recent_window,naive_rag,mem0,ours
 python scripts/eval_adversarial.py     --systems ours,mem0
 python scripts/eval_process_metrics.py --n 50  --systems ours,naive_rag,recent_window
-python scripts/eval_provenance.py      --n 100 --systems recent_window,naive_rag,ours
 python scripts/eval_ablations.py       --n 50
 python scripts/eval_longmemeval.py     --n 500 --systems recent_window,naive_rag,mem0,ours
 
