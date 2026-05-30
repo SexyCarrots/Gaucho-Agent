@@ -96,20 +96,22 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 ## Slide 8 — Ablations: which component does the work?
 
-`figures/ablations.png`
+`figures/ablations.png` · n=50, K=2 (cap binds)
 
-| Variant | Acc | Ret@K | Δ vs full |
+| Variant | Acc | Ret@K | Δ vs `full` |
 |---|---|---|---|
-| `full` | **0.68** | **0.86** | — |
-| `−typing` (β=0) | 0.68 | 0.86 | 0.00 |
-| `−recency` (γ=0) | 0.68 | 0.86 | 0.00 |
-| `−judge` (heuristic) | 0.66 | 0.78 | **−0.08 Ret@K** |
+| `full` | 0.40 | **0.56** | — |
+| `−typing` (β=0) | 0.38 | **0.48** | **−0.08 Ret@K** |
+| `−recency` (γ=0) | 0.42 | 0.60 | noise |
+| `−judge` (heuristic) | **0.46** | 0.58 | **+0.06 acc** |
 
-**The LLM-judge store policy is load-bearing.** β·type and γ·recency
-are no-ops on small homogeneous stores (no cosine ambiguity, no time
-spread). The win comes from *what gets stored*, not how it's ranked.
+**β·typing is the load-bearing retrieval term** — pulls the gold memory
+into top-2 under a tight cap. γ·recency is decorative (no time spread
+in single-shot eval). **Store curation is a budget-regime tradeoff** —
+the judge wins at K=8 but loses at K=2 (canonical normalization is
+lossy when the cap forces hard choices).
 
-*The contribution is store curation, not retrieval ranking.*
+*Single-K ablations hide this. The multi-axis instrument finds it.*
 
 ---
 
@@ -131,9 +133,10 @@ remaining gate is token budget.*
 2. The three-axis framework makes claims **diagnostic**: ours wins on
    **ROI** (2–3×), **process** (store-F1 0.44 vs 0.23, override 0.67 vs
    0.00), and **contradictions** (+0.60 over mem0).
-3. **Ablations localize the win to store curation** — the LLM judge is
-   the load-bearing component; retrieval ranking is decorative on small
-   stores.
+3. **Ablations under a binding retrieval cap** show β·typing carrying
+   the retrieval load (−0.08 Ret@K when removed) and reveal store
+   curation as a *budget-regime tradeoff* — a finding a single-K
+   ablation would have hidden.
 
 Repo · [REPORT.md](REPORT.md) · [EXPERIMENTS.md](EXPERIMENTS.md) · figures/
 

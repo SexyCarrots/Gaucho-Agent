@@ -39,6 +39,10 @@ def main() -> int:
     ap.add_argument("--judge-model", default="gpt-4o")
     ap.add_argument("--out", default="results/ablations.csv")
     ap.add_argument("--offline", action="store_true")
+    ap.add_argument("--k", type=int, default=None,
+                    help="retrieval cap (default: settings.mem_top_k=8). "
+                         "Use --k 2 to force the cap to bind on small stores; "
+                         "this is what actually exercises beta/gamma in retrieval.")
     args = ap.parse_args()
 
     if args.offline:
@@ -52,7 +56,8 @@ def main() -> int:
             with fresh_session() as s:
                 b = get_backend("ours", session=s, **kw)
                 ingest_probe(b, probe, s)
-                r = answer_probe(b, probe, s, mode="with_memory")
+                r = answer_probe(b, probe, s, mode="with_memory",
+                                 k=args.k)
                 score_answer(s, probe, r, judge_model=args.judge_model)
                 hits.append(r.correct)
                 ret_hits.append(gold_in(probe, r.retrieved))

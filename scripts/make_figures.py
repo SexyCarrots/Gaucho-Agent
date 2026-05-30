@@ -207,7 +207,7 @@ def fig_ablations():
     ax.set_xticklabels(variants)
     ax.set_ylabel("score")
     ax.set_ylim(0, 1)
-    ax.set_title("Ablations: which component of `ours` does the work?")
+    ax.set_title("Ablations on `ours` (K=2: retrieval cap binds)")
     ax.axhline(df.loc[df.variant == "full", "accuracy"].iloc[0],
                color="grey", ls="--", lw=0.6,
                label=f"full ({df.loc[df.variant == 'full', 'accuracy'].iloc[0]:.2f} acc)")
