@@ -156,7 +156,7 @@ python scripts/make_figures.py
 
 Produces the five headline PNGs (200 dpi) in `figures/`. It reads whatever CSVs
 exist in `results/` and skips experiments you haven't run yet, so it is
-safe to run at any point. **A reader who only looks at these three
+safe to run at any point. **A reader who only looks at these four
 figures should understand the entire contribution:**
 
 | Figure | Experiment | Reading |
@@ -164,6 +164,7 @@ figures should understand the entire contribution:**
 | `exp1_accuracy_and_roi.png` | EXP-1 | memory's true contribution + ROI |
 | `exp3_robustness.png` | EXP-3 | resilience to messy users |
 | `exp4_process_f1.png` | EXP-4 | which pipeline stage is the weak link |
+| `ablations.png` | Ablations | which component of `ours` is load-bearing |
 
 ---
 

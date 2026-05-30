@@ -190,6 +190,34 @@ def fig5_provenance():
     print("wrote figures/exp5_provenance.png")
 
 
+def fig_ablations():
+    """Component ablations on `ours`: full vs -typing / -recency / -judge."""
+    p = _have("ablations.csv")
+    if not p:
+        return
+    df = pd.read_csv(p)
+    variants = list(df["variant"])
+    x = range(len(variants))
+    w = 0.38
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.bar([xi - w / 2 for xi in x], df["accuracy"], w, label="accuracy")
+    ax.bar([xi + w / 2 for xi in x], df["retrieve_at_k"], w,
+           label="retrieve@k")
+    ax.set_xticks(list(x))
+    ax.set_xticklabels(variants)
+    ax.set_ylabel("score")
+    ax.set_ylim(0, 1)
+    ax.set_title("Ablations: which component of `ours` does the work?")
+    ax.axhline(df.loc[df.variant == "full", "accuracy"].iloc[0],
+               color="grey", ls="--", lw=0.6,
+               label=f"full ({df.loc[df.variant == 'full', 'accuracy'].iloc[0]:.2f} acc)")
+    ax.grid(axis="y", alpha=0.3)
+    ax.legend(loc="lower left")
+    fig.tight_layout()
+    fig.savefig(dpi=200, fname=FIG / "ablations.png")
+    print("wrote figures/ablations.png")
+
+
 def main() -> int:
     fig1_counterfactual()
     # EXP-2 is deferred to the LongMemEval-S real-mode run (the cap does
@@ -200,6 +228,7 @@ def main() -> int:
     # EXP-5 deferred to the LongMemEval-S real-mode run (the synthetic
     # probes pin provenance at 1.00 by construction). Re-enable with:
     # fig5_provenance()
+    fig_ablations()
     return 0
 
 

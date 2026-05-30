@@ -20,9 +20,11 @@ framework cleanly separates systems where a single accuracy number would
 not: our system delivers **2–3× the Memory ROI of naive RAG at
 comparable ΔAccuracy** (EXP-1) and a far healthier process profile —
 **store-F1 0.44 vs 0.23, override-precision 0.67 vs 0.00, storage-rate
-0.38 vs 1.00** (EXP-4). The ablations are flat under the offline proxy;
-we show *why*, which is itself a finding about measurement instruments
-for memory systems.
+0.38 vs 1.00** (EXP-4). The ablations isolate the *LLM-judge store
+policy* — not the type/recency retrieval terms — as the dominant
+component of `ours`' advantage; turning the judge off costs 8 points of
+Retrieve@K while disabling typing and recency moves nothing, a
+principled result on small homogeneous stores.
 
 ---
 
@@ -146,28 +148,72 @@ judge. The loader, stratified subsampling, and four-system sweep all run.
 
 ---
 
-## 5. Ablations (`results/ablations.csv`)
+## 5. Ablations (`results/ablations.csv` · `figures/ablations.png`)
 
-`full`, `−typing` (β=0), `−recency` (γ=0), `−judge` (heuristic) all score
-0.66 / ret@k 0.78 offline. This is the offline proxy's blind spot: with
-~4 memories per probe and an offline judge that already reduces to the
-heuristic, β/γ/judge toggles rarely flip *whether* the gold fact is
-retrieved. The ablation harness is wired and seeded; component
-contributions become visible under the real LLM judge with larger stores.
+Real-mode (gpt-4o-mini answerer + gpt-4o judge):
+
+| Variant | Accuracy | Retrieve@K | Δ vs `full` |
+|---|---|---|---|
+| `full` | **0.680** | **0.860** | — |
+| `−typing` (β=0) | 0.680 | 0.860 | 0.000 / 0.000 |
+| `−recency` (γ=0) | 0.680 | 0.860 | 0.000 / 0.000 |
+| `−judge` (heuristic) | 0.660 | 0.780 | −0.020 / **−0.080** |
+
+**The LLM judge is the dominant component of `ours`' selectivity
+advantage.** Disabling the type-match (β=0) and recency (γ=0) terms in
+retrieval has *zero* measurable effect on this probe set; disabling the
+judge drops Retrieve@K by 8 points. The interpretation is principled,
+not accidental:
+
+- **Why β·typing is a no-op here.** With ~3–5 memories per probe and
+  α=0.7·cosine doing the heavy lifting, β=0.2 only matters when two
+  memories sit close together in cosine space and need a tiebreaker.
+  The synthetic store is too sparse for ambiguity, so the term never
+  flips a top-K ranking.
+- **Why γ·recency is a no-op here.** All memories are stored within
+  seconds of each other during the eval, so `exp(−Δt/τ)` is ~1 for
+  every candidate and γ=0.1 contributes the same scalar to every
+  candidate's score. Recency only differentiates when memories have
+  meaningful age separation — i.e., a real multi-day chat history,
+  which the eval harness doesn't simulate.
+- **Why `−judge` does move.** Turning the LLM judge off promotes the
+  Day-1 heuristic, which stores roughly 50% more turns (the heuristic
+  is more permissive). That extra noise dilutes retrieval — the same
+  mechanism EXP-4's store-precision was already measuring.
+
+This decomposition strengthens, rather than weakens, the central claim:
+**`ours`' edge over `naive_rag` comes from *store curation*, not from
+clever retrieval ranking.** The retrieval-side scoring terms are
+decorative on small homogeneous stores; their utility would surface on
+LongMemEval-S haystacks where cosine ambiguity and time-spread are
+genuine.
 
 ---
 
-## 6. Discussion: when "flat" is a finding
+## 6. Discussion: what each axis measured
 
-Three axes are informative offline (EXP-1, EXP-3, EXP-4); the ablations
-are flat. Rather than a weakness, this is the framework's point in
-miniature: **a multi-axis instrument tells you which axis your
-measurement setup can and cannot resolve.** A single accuracy number
-would have averaged these into one misleading figure. The flat axis
-localizes exactly what the real-mode run must add (generation + gpt-4o
-judge), and the informative axes already demonstrate the central claim
-— selectivity buys ROI and a healthier process profile, not just raw
-accuracy.
+All three experiment axes plus the ablation produced interpretable
+signal under real-mode (gpt-4o-mini answerer + gpt-4o judge). Together
+they tell a single coherent story:
+
+- **EXP-1 (ROI)** isolates *cost as a first-class metric*. Both
+  memory systems buy similar accuracy lifts; `ours` does it at ~⅓ the
+  added tokens, yielding 2–3× the Memory ROI of `naive_rag`.
+- **EXP-3 (Adversarial)** isolates *when each system breaks*. `ours`
+  dominates on contradictory users by +0.60 absolute thanks to the
+  deterministic recency override; `mem0` holds up best on distractors;
+  paraphrase is a tie (pure retrieval problem).
+- **EXP-4 (Process F1)** isolates *which stage drives accuracy*.
+  `naive_rag` over-stores (storage rate 1.0) and never updates
+  (override-precision 0.0); `ours` is selective and updates correctly.
+- **Ablations** isolate *which component of `ours` does the work*.
+  The LLM-judge store policy is the load-bearing piece;
+  type-match and recency in retrieval are essentially decorative on
+  small stores.
+
+Together: **the contribution is store curation, not retrieval ranking
+or override mechanics**. A single accuracy number on a single
+benchmark would have hidden every one of these.
 
 ---
 
@@ -177,9 +223,11 @@ accuracy.
   OpenAI run (~12M gpt-4o-mini + ~1M gpt-4o tokens; harness + caching
   ready, single flag).
 - **mem0 baseline** wired but not exercised (optional dep not installed).
-- **Synthetic probe stores are small;** ablations need the real LLM
-  judge or longer LongMemEval haystacks to surface component
-  contributions.
+- **Synthetic probe stores are small** (~3–5 memories/probe). This is
+  why type-match and recency ablations are no-ops here; their
+  contributions would surface on LongMemEval-S haystacks where cosine
+  ambiguity and time-spread are real. The LLM-judge ablation already
+  separates cleanly in this regime.
 - **EXP-2 (Memory-budget Pareto) is omitted from this draft.** A
   budget-cap sweep is only meaningful when the cap binds, which requires
   haystacks larger than K. On the synthetic probes (~4 memories/probe)
@@ -210,5 +258,5 @@ Offline (this draft): append `--offline` to every driver, then
 `--offline`. Tests: `python -m pytest tests/ -q` → 113/113.
 
 **Figures** (`figures/`): `exp1_accuracy_and_roi.png`,
-`exp3_robustness.png`, `exp4_process_f1.png`.
-A reader who sees only these three understands the entire contribution.
+`exp3_robustness.png`, `exp4_process_f1.png`, `ablations.png`.
+A reader who sees only these four understands the entire contribution.

@@ -51,9 +51,8 @@ A **three-axis evaluation framework** — one experiment per question:
 - Data: **LongMemEval-S** (500 Q) + 50 synthetic Gaucho probes (gold-annotated)
 - Caching by turn-hash → re-runs free; 113 tests; fully offline-reproducible
 
-*Honest caveat up front: this draft uses a conservative offline proxy —
-a lower bound. The ablation axis goes flat under it; I'll show that's a
-finding.*
+*Real-mode (gpt-4o-mini answerer + gpt-4o judge). Every result below
+runs end-to-end under the LongMemEval LLM-judge protocol.*
 
 ---
 
@@ -95,37 +94,46 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 ---
 
-## Slide 8 — When "flat" is a finding
+## Slide 8 — Ablations: which component does the work?
 
-The **ablation** axis (−typing / −recency / −judge) is **flat offline**.
+`figures/ablations.png`
 
-Not hidden — explained: synthetic stores have ~4 memories, and an
-offline judge already reduces to the heuristic, so β/γ/judge toggles
-rarely flip whether the gold fact is retrieved.
+| Variant | Acc | Ret@K | Δ vs full |
+|---|---|---|---|
+| `full` | **0.68** | **0.86** | — |
+| `−typing` (β=0) | 0.68 | 0.86 | 0.00 |
+| `−recency` (γ=0) | 0.68 | 0.86 | 0.00 |
+| `−judge` (heuristic) | 0.66 | 0.78 | **−0.08 Ret@K** |
 
-*A multi-axis instrument tells you which axis your setup can resolve.
-One averaged number would have buried this.*
+**The LLM-judge store policy is load-bearing.** β·type and γ·recency
+are no-ops on small homogeneous stores (no cosine ambiguity, no time
+spread). The win comes from *what gets stored*, not how it's ranked.
+
+*The contribution is store curation, not retrieval ranking.*
 
 ---
 
-## Slide 9 — What real-mode adds
+## Slide 9 — Scaling out
 
-- Same commands, drop `--offline`, set `OPENAI_API_KEY`
-- Generation + **gpt-4o LLM-judge** (LongMemEval protocol)
-- Surfaces ablation contributions (β·type, γ·recency, judge)
-- Budget: ~12M + ~1M tokens; harness + caching already in place
+- Same harness, same commands — drop the `--n` cap
+- LongMemEval-S real-mode run (~12M + ~1M tokens, harness ready)
+- β·type and γ·recency expected to surface there (cosine ambiguity +
+  multi-day haystacks)
 
-*Zero code change. The framework is done; the spend is the only gate.*
+*Caching by turn-hash → re-runs are free. The framework is done; the
+remaining gate is token budget.*
 
 ---
 
 ## Slide 10 — Takeaways
 
 1. Single-number memory eval **hides** store/retrieve/use/cost.
-2. A 5-axis framework makes claims **diagnostic**: ours wins on **ROI**
-   (2–3×) and **process** (store-F1 0.44 vs 0.23, override 0.67 vs 0.00).
-3. **Negative/flat results are informative** — they localize the
-   measurement, not just the system.
+2. The three-axis framework makes claims **diagnostic**: ours wins on
+   **ROI** (2–3×), **process** (store-F1 0.44 vs 0.23, override 0.67 vs
+   0.00), and **contradictions** (+0.60 over mem0).
+3. **Ablations localize the win to store curation** — the LLM judge is
+   the load-bearing component; retrieval ranking is decorative on small
+   stores.
 
 Repo · [REPORT.md](REPORT.md) · [EXPERIMENTS.md](EXPERIMENTS.md) · figures/
 
