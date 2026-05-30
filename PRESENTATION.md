@@ -48,7 +48,7 @@ A **three-axis evaluation framework** — one experiment per question:
 
 - Backends behind one interface: **recent-window · naive-RAG · mem0 · ours**
 - **ours** = LLM-judge store + `α·cos + β·type + γ·recency` + recency override
-- Data: **LongMemEval-S** (500 Q) + 50 synthetic Gaucho probes (gold-annotated)
+- Data: **synthetic Gaucho probes** (50, gold-annotated); LongMemEval-S harness wired for budget-permitting scaling
 - Caching by turn-hash → re-runs free; 113 tests; fully offline-reproducible
 
 *Real-mode (gpt-4o-mini answerer + gpt-4o judge). Every result below
@@ -58,13 +58,14 @@ runs end-to-end under the LongMemEval LLM-judge protocol.*
 
 ## Slide 5 — EXP-1: Memory ROI  ← headline
 
-`figures/exp1_accuracy_and_roi.png`
+`figures/exp1_accuracy_and_roi.png` · n=40/category
 
 - recent-window ΔAcc = **0** → counterfactual control works
-- naive-RAG: good ΔAcc, **3× the tokens**
-- **ours: comparable ΔAcc at ⅓ the tokens → 2–3× the ROI**
+- naive-RAG: ΔAcc 0.70–0.75, but pays **46–73 added tokens** → ROI 10–16
+- **ours: ΔAcc 0.63–0.73 at ~half the tokens (26–35) → ROI 18–28**
 
-*Cost as a first-class metric — absent from current benchmarks.*
+*ours trades ~5 pts of ΔAcc for ~half the prompt cost, yielding ~2×
+the Memory ROI — cost as a first-class metric.*
 
 ---
 
@@ -84,13 +85,16 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 ## Slide 7 — EXP-3: Adversarial robustness
 
-`figures/exp3_robustness.png`
+`figures/exp3_robustness.png` · ours vs mem0, n=30/persona
 
-- **contradictory:** ours **+0.20** gap (recency override engaging)
-- **distractor:** ours −0.03 vs naive **−0.17** (judge filters noise)
-- paraphrase: flat for both (pure retrieval) — as predicted
+- **contradictory:** ours **0.90** (+0.23 gap), mem0 **0.40** (−0.37 gap)
+  → **+0.50 absolute / +0.60 in gap** — the recency override engaging
+- **distractor:** ours 0.63 (−0.03), mem0 0.77 (0.00) — mem0 wins
+- **paraphrase:** both 0.67 vs 0.77, both gap 0.00 — tie (pure retrieval)
 
-*Predicted pattern holds. LLM-simulated personas, reproducible.*
+*ours dominates where structural overrides matter (contradictions);
+mem0 holds on lexical noise. Per-persona separation a single number
+would have averaged away.*
 
 ---
 
@@ -131,8 +135,9 @@ remaining gate is token budget.*
 
 1. Single-number memory eval **hides** store/retrieve/use/cost.
 2. The three-axis framework makes claims **diagnostic**: ours wins on
-   **ROI** (2–3×), **process** (store-F1 0.44 vs 0.23, override 0.67 vs
-   0.00), and **contradictions** (+0.60 over mem0).
+   **ROI** (~2× naive at ~half the tokens), **process** (store-F1
+   0.44 vs 0.23, override-prec 0.67 vs 0.00), and **contradictions**
+   (+0.60 gap over mem0).
 3. **Ablations under a binding retrieval cap** show β·typing carrying
    the retrieval load (−0.08 Ret@K when removed) and reveal store
    curation as a *budget-regime tradeoff* — a finding a single-K

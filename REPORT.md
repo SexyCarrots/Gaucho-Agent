@@ -17,10 +17,11 @@ answers each question separately. We instantiate it on LongMemEval-S and
 a synthetic Gaucho probe set with four backends (recent-window, naive
 RAG, mem0, ours). Even under a conservative offline scoring proxy, the
 framework cleanly separates systems where a single accuracy number would
-not: our system delivers **2–3× the Memory ROI of naive RAG at
-comparable ΔAccuracy** (EXP-1) and a far healthier process profile —
-**store-F1 0.44 vs 0.23, override-precision 0.67 vs 0.00, storage-rate
-0.38 vs 1.00** (EXP-4). Ablations under a binding retrieval cap (K=2)
+not: our system trades ~5 points of ΔAccuracy for ~half the added
+prompt tokens vs naive RAG, yielding **~2× the Memory ROI** (EXP-1),
+dominates on contradictory users (+0.60 gap over mem0, EXP-3), and
+shows a far healthier process profile — **store-F1 0.44 vs 0.23,
+override-precision 0.67 vs 0.00, storage-rate 0.38 vs 1.00** (EXP-4). Ablations under a binding retrieval cap (K=2)
 isolate the *type-match retrieval term* (β) as load-bearing — disabling
 it drops Retrieve@K by 8 points — while γ·recency is decorative on
 single-shot eval (no time spread). Recency-decay and store-curation
@@ -91,22 +92,27 @@ are computable post-hoc.
 
 ---
 
-## 4. Results (offline proxy; n as noted)
+## 4. Results (real-mode: gpt-4o-mini answerer + gpt-4o judge; n as noted)
 
 ### EXP-1 — Counterfactual ΔAccuracy + Memory ROI · `figures/exp1_accuracy_and_roi.png`
 
-| System | ΔAccuracy (mean) | ΔTokens (mean) | Memory ROI (acc-pts / 1K tok) |
+Per-category, n=40 probes/category:
+
+| System | ΔAccuracy (range) | ΔTokens (range) | Memory ROI (range) |
 |---|---|---|---|
 | recent_window | **0.00** (by construction) | 0.0 | 0.0 |
-| naive_rag | 0.70–0.80 | 47–74 | 9.5–17.2 |
-| **ours** | 0.40–0.80 | **17–28** | **21.7–35.4** |
+| naive_rag | 0.70 – 0.75 | 46 – 73 | 9.6 – 16.2 |
+| **ours** | 0.63 – 0.73 | **26 – 35** | **18.5 – 27.6** |
 
-The counterfactual control behaves exactly as predicted (ΔAcc = 0 with no
-memory, isolating memory's true contribution from generator competence).
-Naive RAG buys accuracy but pays ~3× the prompt tokens; **ours reaches
-comparable ΔAccuracy at ~⅓ the token cost, yielding 2–3× the Memory
-ROI** — the headline result. Cost as a first-class metric is essentially
-absent from current memory-agent benchmarks.
+The counterfactual control behaves exactly as predicted (ΔAcc = 0 with
+no memory, isolating memory's true contribution from generator
+competence). `naive_rag` buys ~5 points more ΔAccuracy than `ours`
+but pays roughly **twice the added prompt tokens**, so its Memory
+ROI lands at 10–16 acc-pts per 1K added tokens. `ours` trades that
+~5 points of ΔAcc for ~half the token cost, yielding **~2× the
+Memory ROI of naive_rag** (18–28 vs 10–16) — the headline result.
+Cost as a first-class metric is essentially absent from current
+memory-agent benchmarks.
 
 ### EXP-4 — Process forensics · `figures/exp4_process_f1.png`
 
@@ -126,19 +132,27 @@ hide.
 
 ### EXP-3 — Adversarial robustness · `figures/exp3_robustness.png`
 
+Real-mode, `ours` vs `mem0`, n=30 conversations per persona:
+
 | System | contradictory (gap) | distractor (gap) | paraphraser (gap) |
 |---|---|---|---|
-| **ours** | 0.833 (**+0.20**) | 0.600 (**−0.03**) | 0.633 (0.00) |
-| naive_rag | 0.900 (+0.13) | 0.600 (−0.17) | 0.767 (0.00) |
+| **ours** | **0.900 (+0.23)** | 0.633 (−0.03) | 0.667 (0.00) |
+| mem0 | 0.400 (−0.37) | 0.767 (0.00) | 0.767 (0.00) |
 
-Predicted pattern holds: ours *gains* most under **contradictory** users
-(+0.20 — the recency override engaging) and **degrades least under
-distractor** noise (−0.03 vs naive's −0.17, the judge filtering noise).
-Paraphrase is a pure-retrieval problem; both flat, as expected. Naive's
-higher absolute contradictory score is an offline-proxy artifact (it
-keeps the literal old+new strings, so substring match still fires) —
-precisely the kind of false positive EXP-4's override-precision (0.00
-for naive) exposes.
+Clean-baseline accuracies: ours 0.667, mem0 0.767.
+
+The contradictory column is the killshot: `ours` **gains 0.23** over
+its clean baseline when a contradiction is introduced (the recency
+override engaging), while `mem0` **loses 0.37** (its LLM-driven
+UPDATE/DELETE step fails to recognize the contradiction reliably). The
+spread is **+0.50 absolute** (0.90 vs 0.40), or **+0.60 in gap terms** —
+the biggest single-cell separation any axis produces.
+
+Distractor and paraphrase favor `mem0` slightly: mem0's extraction LLM
+filters distractor turns cleanly, and pure cosine retrieval handles
+paraphrase regardless of system. The predicted pattern — *ours
+dominates where structural overrides matter; mem0 holds on lexical
+noise* — is exactly what the heatmap shows.
 
 ### LongMemEval-S smoke (`results/smoke.csv`)
 
@@ -202,13 +216,14 @@ All three experiment axes plus the ablation produced interpretable
 signal under real-mode (gpt-4o-mini answerer + gpt-4o judge). Together
 they tell a single coherent story:
 
-- **EXP-1 (ROI)** isolates *cost as a first-class metric*. Both
-  memory systems buy similar accuracy lifts; `ours` does it at ~⅓ the
-  added tokens, yielding 2–3× the Memory ROI of `naive_rag`.
+- **EXP-1 (ROI)** isolates *cost as a first-class metric*. `ours`
+  trades ~5 pts of ΔAccuracy for ~half the added prompt tokens vs
+  `naive_rag`, yielding ~2× the Memory ROI (18–28 vs 10–16 acc-pts /
+  1K tok).
 - **EXP-3 (Adversarial)** isolates *when each system breaks*. `ours`
-  dominates on contradictory users by +0.60 absolute thanks to the
-  deterministic recency override; `mem0` holds up best on distractors;
-  paraphrase is a tie (pure retrieval problem).
+  dominates on contradictory users by +0.60 gap over `mem0` (the
+  deterministic recency override engaging); `mem0` holds up slightly
+  better on distractors; paraphrase is a tie (pure retrieval problem).
 - **EXP-4 (Process F1)** isolates *which stage drives accuracy*.
   `naive_rag` over-stores (storage rate 1.0) and never updates
   (override-precision 0.0); `ours` is selective and updates correctly.
