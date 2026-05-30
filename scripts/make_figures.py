@@ -199,18 +199,33 @@ def fig_ablations():
     variants = list(df["variant"])
     x = range(len(variants))
     w = 0.38
-    fig, ax = plt.subplots(figsize=(8, 4))
-    ax.bar([xi - w / 2 for xi in x], df["accuracy"], w, label="accuracy")
-    ax.bar([xi + w / 2 for xi in x], df["retrieve_at_k"], w,
-           label="retrieve@k")
+    fig, ax = plt.subplots(figsize=(8, 4.2))
+    bars_acc = ax.bar([xi - w / 2 for xi in x], df["accuracy"], w,
+                       label="accuracy", color="C0")
+    bars_ret = ax.bar([xi + w / 2 for xi in x], df["retrieve_at_k"], w,
+                       label="retrieve@k", color="C1")
+    for b in list(bars_acc) + list(bars_ret):
+        ax.annotate(f"{b.get_height():.2f}",
+                    xy=(b.get_x() + b.get_width() / 2, b.get_height()),
+                    xytext=(0, 3), textcoords="offset points",
+                    ha="center", va="bottom", fontsize=9)
     ax.set_xticks(list(x))
     ax.set_xticklabels(variants)
     ax.set_ylabel("score")
-    ax.set_ylim(0, 1)
+    # Auto-zoom around the data so small effects are visible. The dashed
+    # `full` reference line anchors the eye, so the non-zero baseline
+    # doesn't mislead — it amplifies the contrast that matters.
+    lo = min(df["accuracy"].min(), df["retrieve_at_k"].min())
+    hi = max(df["accuracy"].max(), df["retrieve_at_k"].max())
+    pad = max(0.04, (hi - lo) * 0.25)
+    ax.set_ylim(max(0.0, lo - pad), min(1.0, hi + pad))
     ax.set_title("Ablations on `ours` (K=2: retrieval cap binds)")
-    ax.axhline(df.loc[df.variant == "full", "accuracy"].iloc[0],
-               color="grey", ls="--", lw=0.6,
-               label=f"full ({df.loc[df.variant == 'full', 'accuracy'].iloc[0]:.2f} acc)")
+    full_acc = df.loc[df.variant == "full", "accuracy"].iloc[0]
+    full_ret = df.loc[df.variant == "full", "retrieve_at_k"].iloc[0]
+    ax.axhline(full_acc, color="C0", ls="--", lw=0.7,
+               label=f"full acc ({full_acc:.2f})")
+    ax.axhline(full_ret, color="C1", ls="--", lw=0.7,
+               label=f"full ret@k ({full_ret:.2f})")
     ax.grid(axis="y", alpha=0.3)
     ax.legend(loc="lower left")
     fig.tight_layout()
