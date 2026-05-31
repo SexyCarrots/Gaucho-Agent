@@ -290,8 +290,21 @@ def chat():
                     messages.append({
                         "role": "system",
                         "content": (
-                            "Known facts about this user (from long-term "
-                            f"memory; use if relevant):\n{block}"
+                            "PERSISTENT USER PROFILE — these facts about the "
+                            "user must be treated as HARD CONSTRAINTS on "
+                            "every recommendation in your answer, not as "
+                            "optional context:\n"
+                            f"{block}\n\n"
+                            "Rules:\n"
+                            "1. Never recommend anything that contradicts a "
+                            "fact above (e.g. if the user is vegetarian, do "
+                            "not list meat, poultry, or fish — filter them "
+                            "out silently rather than mentioning them).\n"
+                            "2. If the user's literal request conflicts with "
+                            "a fact, the fact wins; reframe the answer to "
+                            "satisfy the constraint.\n"
+                            "3. Briefly acknowledge the relevant fact you "
+                            "used (e.g. \"since you're vegetarian, ...\")."
                         ),
                     })
                     console.print(f"  [dim]↺ recalled {len(recalled)} memory item(s)[/]")
