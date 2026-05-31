@@ -191,15 +191,39 @@ def answer_probe(
 
     answer = ""
     if _has_key():
-        sys = ("You are a UCSB academic assistant. Use the user's "
-               "remembered facts when relevant. Answer concisely.")
-        user = (f"Known facts about the user:\n{mem_block}\n\n"
-                f"Question: {q}") if retrieved else f"Question: {q}"
+        # Prompt synced with gaucho_agent.cli.main chat() injection
+        # (commit f301c27): recalled memories are HARD CONSTRAINTS, not
+        # optional context. Otherwise the LLM retrieves the right fact
+        # but ignores it, which biases EXP-1/3/ablations downward for
+        # `ours` (the system whose advantage is delivering the right
+        # fact to the prompt).
+        sys = ("You are a UCSB academic assistant. Answer concisely.")
+        if retrieved:
+            user = (
+                "PERSISTENT USER PROFILE — these facts about the user "
+                "must be treated as HARD CONSTRAINTS on every "
+                "recommendation in your answer, not as optional "
+                f"context:\n{mem_block}\n\n"
+                "Rules:\n"
+                "1. Never recommend anything that contradicts a fact "
+                "above (e.g. if the user is vegetarian, do not list "
+                "meat, poultry, or fish).\n"
+                "2. If the user's literal request conflicts with a "
+                "fact, the fact wins; reframe the answer to satisfy "
+                "the constraint.\n"
+                "3. Briefly acknowledge the relevant fact you used.\n\n"
+                f"Question: {q}"
+            )
+        else:
+            user = f"Question: {q}"
         answer = cached_complete(
             session,
             [{"role": "system", "content": sys},
              {"role": "user", "content": user}],
             model,
+            # Bump version so old cached responses (under the soft
+            # "use if relevant" prompt) don't replay on this rerun.
+            version="eval-v2-hardconstraints",
         )
     if not answer:
         # Offline proxy (no key, or call returned empty): the answer is
