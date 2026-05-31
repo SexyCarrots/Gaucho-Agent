@@ -98,7 +98,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
                     },
                     "date": {
                         "type": "string",
-                        "description": "Date in YYYY-MM-DD format; defaults to today",
+                        "description": "Date in YYYY-MM-DD format (UCSB local time). OMIT for today/tonight/right-now — the tool defaults to today. Only set this when the user asks about a specific other date.",
                     },
                 },
             },
@@ -131,7 +131,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
                 "properties": {
                     "date": {
                         "type": "string",
-                        "description": "Date in YYYY-MM-DD format; defaults to today",
+                        "description": "Date in YYYY-MM-DD format (UCSB local time). OMIT for today/tonight/right-now — the tool defaults to today. Only set this when the user asks about a specific other date.",
                     },
                     "available_hours": {
                         "type": "integer",

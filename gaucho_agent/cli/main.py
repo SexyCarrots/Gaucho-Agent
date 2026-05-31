@@ -247,7 +247,23 @@ def chat():
     prompt_path = Path(__file__).parent.parent / "prompts" / "system.txt"
     system_prompt = prompt_path.read_text() if prompt_path.exists() else "You are a UCSB academic assistant."
 
-    messages: list[dict] = [{"role": "system", "content": system_prompt}]
+    # Inject today's local date so the LLM doesn't compute "today" in UTC.
+    from zoneinfo import ZoneInfo as _ZI
+
+    _now_local = datetime.now(tz=_ZI(settings.local_timezone))
+    date_note = (
+        f"Today's date is {_now_local.strftime('%Y-%m-%d')} "
+        f"({_now_local.strftime('%A')}) in {settings.local_timezone}. "
+        "When calling tools that accept a `date` argument, use this date "
+        "for 'today'/'now'/'tonight'/'rn' — or omit the argument and let "
+        "the tool default to today. NEVER pass tomorrow's date for a "
+        "'today' query."
+    )
+
+    messages: list[dict] = [
+        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": date_note},
+    ]
 
     # --- Selective memory layer (behind USE_MEMORY=1) ---
     mem = None
