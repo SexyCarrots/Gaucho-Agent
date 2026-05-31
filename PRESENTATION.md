@@ -61,8 +61,8 @@ runs end-to-end under the LongMemEval LLM-judge protocol.*
 `figures/exp1_accuracy_and_roi.png` · n=40/category
 
 - recent-window ΔAcc = **0** → counterfactual control works
-- naive-RAG: ΔAcc 0.70–0.75, but pays **46–73 added tokens** → ROI 10–16
-- **ours: ΔAcc 0.63–0.73 at ~half the tokens (26–35) → ROI 18–28**
+- naive-RAG: ΔAcc 0.70–0.80, but pays **46–73 added tokens** → ROI 10–16
+- **ours: ΔAcc 0.65–0.75 at ~half the tokens (26–38) → ROI 17–27**
 
 *ours trades ~5 pts of ΔAcc for ~half the prompt cost, yielding ~2×
 the Memory ROI — cost as a first-class metric.*
@@ -87,10 +87,10 @@ store-F1 or override-precision — memory is treated as a black box.*
 
 `figures/exp3_robustness.png` · ours vs mem0, n=30/persona
 
-- **contradictory:** ours **0.90** (+0.23 gap), mem0 **0.40** (−0.37 gap)
-  → **+0.50 absolute / +0.60 in gap** — the recency override engaging
+- **contradictory:** ours **0.90** (+0.23 gap), mem0 **0.60** (−0.17 gap)
+  → **+0.30 absolute / +0.40 in gap** — the recency override engaging
 - **distractor:** ours 0.63 (−0.03), mem0 0.77 (0.00) — mem0 wins
-- **paraphrase:** both 0.67 vs 0.77, both gap 0.00 — tie (pure retrieval)
+- **paraphrase:** ours 0.70 (+0.03), mem0 0.77 (0.00) — mem0 slightly
 
 *ours dominates where structural overrides matter (contradictions);
 mem0 holds on lexical noise. Per-persona separation a single number
@@ -137,7 +137,7 @@ remaining gate is token budget.*
 2. The three-axis framework makes claims **diagnostic**: ours wins on
    **ROI** (~2× naive at ~half the tokens), **process** (store-F1
    0.44 vs 0.23, override-prec 0.67 vs 0.00), and **contradictions**
-   (+0.60 gap over mem0).
+   (+0.40 gap over mem0).
 3. **Ablations under a binding retrieval cap** show β·typing carrying
    the retrieval load (−0.08 Ret@K when removed) and reveal store
    curation as a *budget-regime tradeoff* — a finding a single-K
